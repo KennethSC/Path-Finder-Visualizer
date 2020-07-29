@@ -13,7 +13,7 @@ export default class Visualizer extends Component {
     render(){
         return(
             <div>
-                Foo
+                What the hell
                 <Node></Node>
             </div>
         );
