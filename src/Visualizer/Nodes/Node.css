@@ -1,6 +1,7 @@
 .node{
     width: 25px;
     height: 25px;
-    outline: 1px solid grey;
+    outline: 2px solid skyblue;
     display: inline-block;
+    background-color: white
 } 
