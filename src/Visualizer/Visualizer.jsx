@@ -28,9 +28,9 @@ export default class Visualizer extends Component {
         console.log(nodes)
         return(
             <div className="grid">
-                {nodes.map((row, rowIdx) =>{
+                {nodes.map((row, rowId) =>{
                     return <div>
-                        {row.map((node, nodeIdx) => <Node></Node>)}
+                        {row.map((node, nodeId) => <Node></Node>)}
                     </div>
                 })}
             </div>
