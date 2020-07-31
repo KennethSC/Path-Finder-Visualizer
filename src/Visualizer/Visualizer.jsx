@@ -45,7 +45,7 @@ export default class Visualizer extends Component {
                                     isStart={isStart}
                                     isFinish={isFinish}
                                     test={'foo'}
-                                    test={'kappa'}></Node>
+                                    /*test={'kappa'}*/></Node>
                                 );
                             })}
                         </div>
