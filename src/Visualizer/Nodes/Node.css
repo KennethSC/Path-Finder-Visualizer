@@ -1,7 +1,24 @@
 .node{
-    width: 25px;
-    height: 25px;
+    width: 24px;
+    height: 24px;
     outline: 2px solid skyblue;
     display: inline-block;
-    background-color: white
-} 
+    background-color: white;
+}
+
+.node-finish{
+    background: url(./images/red-target.png);
+    background-color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+   
+}
+
+.node-start{
+    background: url(./images/green-arrow.png);
+    background-color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
