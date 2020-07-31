@@ -13,10 +13,16 @@ export default class Visualizer extends Component {
 
     componentDidMount(){
         const nodes = [];
-        for(let row = 0; row < 15; row++){
+        for(let row = 0; row < 20; row++){
             const currRow = [];
-            for(let col = 0; col < 50; col++){
-                currRow.push([]);
+            for(let col = 0; col < 59; col++){
+                const currNode = {
+                    col,
+                    row,
+                    isStart: row === 10 && col === 9,
+                    isFinish: row === 10 && col === 49,
+                };
+                currRow.push(currNode);
             }
             nodes.push(currRow);
         }
@@ -26,12 +32,24 @@ export default class Visualizer extends Component {
     render(){
         const {nodes} = this.state;
         console.log(nodes)
-        return(
+        return (
             <div className="grid">
-                {nodes.map((row, rowId) =>{
-                    return <div>
-                        {row.map((node, nodeId) => <Node></Node>)}
-                    </div>
+                {nodes.map((row, rowId) => {
+                    return(
+                     <div key={rowId}>
+                        {row.map((node, nodeId) => {
+                            const {isStart, isFinish} = node;
+                            return (
+                                <Node
+                                    key={nodeId}
+                                    isStart={isStart}
+                                    isFinish={isFinish}
+                                    test={'foo'}
+                                    test={'kappa'}></Node>
+                                );
+                            })}
+                        </div>
+                    );
                 })}
             </div>
         );
