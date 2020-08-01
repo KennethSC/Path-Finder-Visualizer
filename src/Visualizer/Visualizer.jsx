@@ -23,6 +23,11 @@ export default class Visualizer extends Component {
         this.setState({grid});
     }
 
+    clear(){
+        const grid = getInitialGrid();
+        this.setState({grid});
+    }
+
     handleMouseDown(row, col){
         const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
         this.setState({grid: newGrid, mouseIsPressed: true});
@@ -47,7 +52,7 @@ export default class Visualizer extends Component {
                 return;
             }
 
-            if(i == 0){
+            if(i === 0){
                 setTimeout(() => {
                     const node = visitedNodesInOrder[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node start-animate';
@@ -89,6 +94,9 @@ export default class Visualizer extends Component {
             <>  
                 <button onClick={() => this.visualizeDijkstra()}>
                     Visualize Dijkstras's Algorithm
+                </button>
+                <button onClick={() => this.clear()}>
+                    Clear Board
                 </button>
                 <div className="grid">
                     {grid.map((row, rowId) => {
