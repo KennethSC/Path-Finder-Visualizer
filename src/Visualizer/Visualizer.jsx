@@ -8,6 +8,7 @@ const START_NODE_ROW = 10;
 const START_NODE_COL = 8;
 const END_NODE_ROW = 10;
 const END_NODE_COL = 50;
+var speed = 5;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -24,8 +25,7 @@ export default class Visualizer extends Component {
     }
 
     clear(){
-        const grid = getInitialGrid();
-        this.setState({grid});
+        window.location.reload(false); 
     }
 
     handleMouseDown(row, col){
@@ -48,31 +48,46 @@ export default class Visualizer extends Component {
             if(i === visitedNodesInOrder.length){
                 setTimeout(() =>{
                     this.animateShortestPath(nodesInShortestPathOrder);
-                }, 10 * i);
+                }, speed * i);
                 return;
             }
 
             if(i === 0){
                 setTimeout(() => {
                     const node = visitedNodesInOrder[i];
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node start-animate';
-                }, 10 * 1);
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-start';
+                }, speed);
                 
             }
-
+           
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
-            }, 10 * i);
+            }, speed * i);
         }
     }
 
     animateShortestPath(nodesInShortestPathOrder){
         for(let i = 0; i < nodesInShortestPathOrder.length; i++){
+            if(i === 0){
+                setTimeout(() => {
+                    const node = nodesInShortestPathOrder[i];
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-start-SSP';
+                }, 30);
+            }
+
+            if(i === (nodesInShortestPathOrder.length - 1)){
+                setTimeout(() => {
+                    const node = nodesInShortestPathOrder[i];
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target-SSP';
+                }, 30);
+                continue;
+            }
+
             setTimeout(() => {
                 const node = nodesInShortestPathOrder[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 25 * i);
+            }, 22 * i);
 
         }
     }
@@ -91,13 +106,25 @@ export default class Visualizer extends Component {
         const {grid, mouseIsPressed} = this.state;
 
         return (
-            <>  
-                <button onClick={() => this.visualizeDijkstra()}>
-                    Visualize Dijkstras's Algorithm
+            <>
+                <button class="Algorithms-Button" data-toggle="dropdown" onClick={() => this.visualizeDijkstra()}>
+                    Algorithms
                 </button>
-                <button onClick={() => this.clear()}>
-                    Clear Board
+    
+                <button class="Clear-Button" onClick={() => this.clear()}>
+                    Clear Grid
                 </button>
+
+                <button onClick={() => speed = 5}>
+                    Fast
+                </button>
+                <button onClick={() => speed = 13}>
+                    Average
+                </button>
+                <button onClick={() => speed = 25}>
+                    Slow
+                </button>
+
                 <div className="grid">
                     {grid.map((row, rowId) => {
                         return(
@@ -113,9 +140,7 @@ export default class Visualizer extends Component {
                                         isWall={isWall}
                                         mouseIsPressed={mouseIsPressed}
                                         onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-                                        onMouseEnter={(row, col) => 
-                                            this.handleMouseEnter(row, col)
-                                        }
+                                        onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
                                         onMouseUp={() => this.handleMouseUp()}
                                         row={row}></Node>
                                     );
