@@ -8,7 +8,7 @@ const START_NODE_ROW = 10;
 const START_NODE_COL = 7;
 const END_NODE_ROW = 10;
 const END_NODE_COL = 51;
-var speed = 6;
+var speed = 5;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -74,6 +74,13 @@ export default class Visualizer extends Component {
     }
 
     animateShortestPath(nodesInShortestPathOrder){
+        if(nodesInShortestPathOrder.length < 2){
+            setTimeout(() =>{
+                this.animateNoPath(nodesInShortestPathOrder);
+            }, speed);
+            return;
+        }
+
         for(let i = 0; i < nodesInShortestPathOrder.length; i++){
             if(i === 0){
                 setTimeout(() => {
@@ -90,11 +97,16 @@ export default class Visualizer extends Component {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target-SSP';
                     }, speed);
                 }
-                else{
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-                }
-            }, 20 * i);
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+            }, 23 * i);
         }
+    }
+
+    animateNoPath(nodesInShortestPathOrder){
+        setTimeout(() => {
+            const node = nodesInShortestPathOrder[0];
+            document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
+        }, 30);
     }
 
     visualizeDijkstra(){
@@ -120,13 +132,13 @@ export default class Visualizer extends Component {
                     Clear Grid
                 </button>
 
-                <button class="Fast" onClick={() => speed = 6}>
+                <button class="Fast" onClick={() => speed = 5}>
                     Fast
                 </button>
-                <button class="Average" onClick={() => speed = 12}>
+                <button class="Average" onClick={() => speed = 25}>
                     Average
                 </button>
-                <button class="Slow" onClick={() => speed = 25}>
+                <button class="Slow" onClick={() => speed = 50}>
                     Slow
                 </button>
 
