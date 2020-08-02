@@ -16,15 +16,31 @@
 }
 
 .node-start{
-    background: url(./images/green-arrow.png);
+    background: url(./images/start-sign.png);
     background-color: white;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
-.start-animate{
-    background: url(./images/green-arrow.png);
+.keep-start{
+    background: url(./images/start-sign.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.keep-start-SSP{
+    background: url(./images/start-sign.png);
+    background-color: rgb(255, 254, 106);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.keep-target-SSP{
+    background: url(./images/red-target.png);
+    background-color: rgb(255, 254, 106);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -82,6 +98,7 @@
 }
 
 @keyframes shortestPath {
+
     0% {
         transform: scale(0.6);
         background-color: rgb(255, 254, 106);
@@ -97,7 +114,3 @@
         background-color: rgb(255, 254, 106);
     }
 }
-
-
-
-
