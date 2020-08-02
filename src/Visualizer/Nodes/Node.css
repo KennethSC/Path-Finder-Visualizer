@@ -12,7 +12,6 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-   
 }
 
 .node-start{
@@ -38,12 +37,20 @@
     background-size: contain;
 }
 
+
 .keep-target-SSP{
     background: url(./images/red-target.png);
-    background-color: rgb(255, 254, 106);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    animation-name: targetAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-iteration-count: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
 }
 
 .node-visited{
@@ -54,8 +61,7 @@
     animation-iteration-count: alternate;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
-    animation-play-state: running
-
+    animation-play-state: running;
 }
 
 
@@ -112,5 +118,29 @@
     100% {
         transform: scale(1);
         background-color: rgb(255, 254, 106);
+    }
+}
+
+@keyframes targetAnimation{
+
+    0% {
+        transform: scale(0.6);
+    }
+
+    25%{
+        transform: scale(.8);
+    }
+
+    50% {
+        transform: scale(1.2);        
+    }
+
+    75% {
+        transfrom: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: rgb(255, 254, 106);        
     }
 }
