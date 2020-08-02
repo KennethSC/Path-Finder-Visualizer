@@ -8,7 +8,7 @@ const START_NODE_ROW = 10;
 const START_NODE_COL = 7;
 const END_NODE_ROW = 10;
 const END_NODE_COL = 51;
-var speed = 5;
+var speed = 6;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -115,7 +115,7 @@ export default class Visualizer extends Component {
                     Clear Grid
                 </button>
 
-                <button class="Fast" onClick={() => speed = 5}>
+                <button class="Fast" onClick={() => speed = 6}>
                     Fast
                 </button>
                 <button class="Average" onClick={() => speed = 12}>
