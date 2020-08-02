@@ -36,6 +36,32 @@
     background-size: contain;
 }
 
+.node-wall{
+    background-color: rgb(12, 53, 71);
+}
+
+.node-visited{
+    animation-name: visitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-iteration-count: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+.node-shortest-path {
+    animation-name: shortestPath;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
 .keep-start-SSP{
     background: url(./images/start-sign.png);
     background-color: rgb(255, 254, 106);
@@ -69,17 +95,19 @@
     animation-play-state: running;
 }
 
-.node-visited{
-    animation-name: visitedAnimation;
+.No-Path{
+    background: url(./images/red-target.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation-name: No-Path;
     animation-duration: 1.5s;
     animation-timing-function: ease-out;
     animation-delay: 0;
-    animation-iteration-count: alternate;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-play-state: running;
 }
-
 
 @keyframes visitedAnimation {
     0% {
@@ -103,21 +131,6 @@
     }
   }
 
-
-.node-wall{
-    background-color: rgb(12, 53, 71);
-}
-
-.node-shortest-path {
-    animation-name: shortestPath;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
-}
 
 @keyframes shortestPath {
 
@@ -149,5 +162,21 @@
 
     100% {
         transform: scale(1);
+    }
+}
+
+@keyframes No-Path{
+
+    0% {
+        transform: scale(0.8);
+        background-color: crimson;
+    }
+    50% {
+        transform: scale(1.6);
+        background-color: red;
+    }
+    100% {
+        transform: scale(1);
+        background-color: white;
     }
 }
