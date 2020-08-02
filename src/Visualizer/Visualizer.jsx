@@ -58,10 +58,16 @@ export default class Visualizer extends Component {
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-start';
                 }, speed);
                 
-            }
+            } 
            
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
+                if(node.row === 10 && node.col === 51){
+                    setTimeout(() => {
+                        const node = visitedNodesInOrder[i];
+                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target';
+                    }, speed);
+                }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
             }, speed * i);
         }
@@ -76,19 +82,18 @@ export default class Visualizer extends Component {
                 }, 30);
             }
 
-            if(i === (nodesInShortestPathOrder.length - 1)){
-                setTimeout(() => {
-                    const node = nodesInShortestPathOrder[i];
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target-SSP';
-                }, 30);
-                continue;
-            }
-
             setTimeout(() => {
                 const node = nodesInShortestPathOrder[i];
-                document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+                if(node.row === 10 && node.col === 51){
+                    setTimeout(() => {
+                        const node = nodesInShortestPathOrder[i];
+                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target-SSP';
+                    }, speed);
+                }
+                else{
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+                }
             }, 20 * i);
-
         }
     }
 
