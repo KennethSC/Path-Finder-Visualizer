@@ -5,9 +5,9 @@ import {dijkstra, getNodesInShortestPathOrder} from '../PathFinding-Algorithms/D
 import './Visualizer.css';
 
 const START_NODE_ROW = 10;
-const START_NODE_COL = 8;
+const START_NODE_COL = 7;
 const END_NODE_ROW = 10;
-const END_NODE_COL = 50;
+const END_NODE_COL = 51;
 var speed = 5;
 
 export default class Visualizer extends Component {
@@ -87,7 +87,7 @@ export default class Visualizer extends Component {
             setTimeout(() => {
                 const node = nodesInShortestPathOrder[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 22 * i);
+            }, 20 * i);
 
         }
     }
@@ -107,21 +107,21 @@ export default class Visualizer extends Component {
 
         return (
             <>
-                <button class="Algorithms-Button" data-toggle="dropdown" onClick={() => this.visualizeDijkstra()}>
-                    Algorithms
+                <button class="Algorithms-Button" onClick={() => this.visualizeDijkstra()}>
+                    Visualize Dijkstra's Algorithm
                 </button>
     
                 <button class="Clear-Button" onClick={() => this.clear()}>
                     Clear Grid
                 </button>
 
-                <button onClick={() => speed = 5}>
+                <button class="Fast" onClick={() => speed = 5}>
                     Fast
                 </button>
-                <button onClick={() => speed = 13}>
+                <button class="Average" onClick={() => speed = 12}>
                     Average
                 </button>
-                <button onClick={() => speed = 25}>
+                <button class="Slow" onClick={() => speed = 25}>
                     Slow
                 </button>
 
