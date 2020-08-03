@@ -71,6 +71,7 @@ export default class Visualizer extends Component {
         }
     }
 
+
     animateShortestPath(nodesInShortestPathOrder){
         if(nodesInShortestPathOrder.length <= 1){
             setTimeout(() =>{
@@ -97,7 +98,10 @@ export default class Visualizer extends Component {
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
             }, 23 * i);
         }
+
+        console.log(nodesInShortestPathOrder.length);
     }
+
 
     animateNoPath(nodesInShortestPathOrder){
         setTimeout(() => {
@@ -124,11 +128,9 @@ export default class Visualizer extends Component {
                 <button class="Button Algos" onClick={() => this.visualizeDijkstra()}>
                     Visualize Dijkstra's Algorithm
                 </button>
-    
                 <button class="Button Clear" onClick={() => this.clear()}>
                     Clear Grid
                 </button>
-
                 <button class="Button Fast" onClick={() => speed = 5}>
                     Fast
                 </button>
@@ -198,6 +200,16 @@ const createNode = (col, row) => {
 const getNewGridWithWallToggled = (grid, row, col) => {
     const newGrid = grid.slice();
     const node = newGrid[row][col];
+
+    if(node.isStart === true || node.isFinish === true){
+        const newNode = {
+            ...node,
+            isWall: false,
+        };
+        newGrid[row][col] = newNode;
+        return newGrid;
+    }
+
     const newNode = {
         ...node,
         isWall: !node.isWall,

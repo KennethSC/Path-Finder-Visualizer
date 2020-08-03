@@ -146,7 +146,7 @@
         background-color: crimson;
     }
     50% {
-        transform: scale(1.6);
+        transform: scale(1.8);
         background-color: red;
     }
     100% {
