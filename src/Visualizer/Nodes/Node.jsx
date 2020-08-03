@@ -13,7 +13,7 @@ export default class Node extends Component{
               onMouseUp,
               row} = this.props;
 
-        const extraClassName = isFinish ? 'node-finish' : isStart ? 'node-start' : isWall ? 'node-wall': '';
+        const extraClassName = isFinish ? 'node-image finish' : isStart ? 'node-image start' : isWall ? 'node-wall': '';
 
         return (
             <div 
