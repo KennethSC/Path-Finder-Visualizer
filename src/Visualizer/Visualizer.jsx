@@ -8,7 +8,7 @@ const START_NODE_ROW = 10;
 const START_NODE_COL = 7;
 const END_NODE_ROW = 10;
 const END_NODE_COL = 51;
-var speed = 5;
+let speed = 5;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -54,18 +54,16 @@ export default class Visualizer extends Component {
 
             if(i === 0){
                 setTimeout(() => {
-                    const node = visitedNodesInOrder[i];
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-start';
+                    let node = visitedNodesInOrder[i];
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image start';
                 }, speed);
-                
             } 
-           
+
             setTimeout(() => {
-                const node = visitedNodesInOrder[i];
+                let node = visitedNodesInOrder[i];
                 if(node.row === 10 && node.col === 51){
                     setTimeout(() => {
-                        const node = visitedNodesInOrder[i];
-                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target';
+                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image finish';
                     }, speed);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
@@ -74,27 +72,26 @@ export default class Visualizer extends Component {
     }
 
     animateShortestPath(nodesInShortestPathOrder){
-        if(nodesInShortestPathOrder.length < 2){
+        if(nodesInShortestPathOrder.length <= 1){
             setTimeout(() =>{
                 this.animateNoPath(nodesInShortestPathOrder);
-            }, speed);
+            }, 30);
             return;
         }
 
         for(let i = 0; i < nodesInShortestPathOrder.length; i++){
             if(i === 0){
                 setTimeout(() => {
-                    const node = nodesInShortestPathOrder[i];
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-start-SSP';
+                    let node = nodesInShortestPathOrder[i];
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image start';
                 }, 30);
             }
 
             setTimeout(() => {
-                const node = nodesInShortestPathOrder[i];
+                let node = nodesInShortestPathOrder[i];
                 if(node.row === 10 && node.col === 51){
                     setTimeout(() => {
-                        const node = nodesInShortestPathOrder[i];
-                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-target-SSP';
+                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
                     }, speed);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
@@ -124,21 +121,21 @@ export default class Visualizer extends Component {
 
         return (
             <>
-                <button class="Algorithms-Button" onClick={() => this.visualizeDijkstra()}>
+                <button class="Button Algos" onClick={() => this.visualizeDijkstra()}>
                     Visualize Dijkstra's Algorithm
                 </button>
     
-                <button class="Clear-Button" onClick={() => this.clear()}>
+                <button class="Button Clear" onClick={() => this.clear()}>
                     Clear Grid
                 </button>
 
-                <button class="Fast" onClick={() => speed = 5}>
+                <button class="Button Fast" onClick={() => speed = 5}>
                     Fast
                 </button>
-                <button class="Average" onClick={() => speed = 25}>
+                <button class="Button Average" onClick={() => speed = 23}>
                     Average
                 </button>
-                <button class="Slow" onClick={() => speed = 50}>
+                <button class="Button Slow" onClick={() => speed = 50}>
                     Slow
                 </button>
 
