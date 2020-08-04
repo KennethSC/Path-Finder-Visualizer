@@ -16,6 +16,7 @@ export default class Visualizer extends Component {
         this.state = {
             grid: [],
             mouseIsPressed: false,
+            enabled: false,
         };
     }
 
@@ -25,8 +26,13 @@ export default class Visualizer extends Component {
     }
 
     clear(){
-        window.location.reload(false); 
+        document.location.reload()
     }
+
+   /*clearAlgo(){
+        const newGrid = generateNewPhysicalGridPreserveWalls(this.state.grid);
+        this.setState({grid: newGrid});
+    }*/
 
     handleMouseDown(row, col){
         const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
@@ -71,7 +77,6 @@ export default class Visualizer extends Component {
         }
     }
 
-
     animateShortestPath(nodesInShortestPathOrder){
         if(nodesInShortestPathOrder.length <= 1){
             setTimeout(() =>{
@@ -96,10 +101,10 @@ export default class Visualizer extends Component {
                     }, speed);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 23 * i);
+            }, 30 * i);
         }
-
         console.log(nodesInShortestPathOrder.length);
+        this.setState({enabled: false});
     }
 
 
@@ -108,9 +113,11 @@ export default class Visualizer extends Component {
             const node = nodesInShortestPathOrder[0];
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
         }, 30);
+        this.setState({enabled: false});
     }
 
     visualizeDijkstra(){
+        this.setState({enabled: true});
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
@@ -125,31 +132,35 @@ export default class Visualizer extends Component {
 
         return (
             <>
-                <button class="Button Algos" onClick={() => this.visualizeDijkstra()}>
+                
+                <button class="Button Algos" disabled={this.state.enabled} onClick={() => this.visualizeDijkstra()}>
                     Visualize Dijkstra's Algorithm
                 </button>
-                <button class="Button Clear" onClick={() => this.clear()}>
+                <button class="Button Clear" disabled={this.state.enabled} onClick={() => this.clear()}>
                     Clear Grid
                 </button>
-                <button class="Button Fast" onClick={() => speed = 5}>
+                <button class="Button Fast" disabled={this.state.enabled} onClick={() => speed = 5}>
                     Fast
                 </button>
-                <button class="Button Average" onClick={() => speed = 23}>
+                <button class="Button Average" disabled={this.state.enabled} onClick={() => speed = 25}>
                     Average
                 </button>
-                <button class="Button Slow" onClick={() => speed = 50}>
+                <button class="Button Slow" disabled={this.state.enabled} onClick={() => speed = 60}>
                     Slow
+                </button>
+                <button class="Button ClearAlgo" disabled={this.state.enabled} onClick={() => clearCells()}>
+                    Clear Algorithm
                 </button>
 
                 <div className="grid">
-                    {grid.map((row, rowId) => {
+                    {grid.map((row, rowIdx) => {
                         return(
-                        <div key={rowId}>
-                            {row.map((node, nodeId) => {
-                                const {row, col, isStart, isFinish, isWall} = node;
+                        <div key={rowIdx}>
+                            {row.map((node, nodeIdx) => {
+                                const {row, col, isFinish, isStart, isWall} = node;
                                 return (
                                     <Node
-                                        key={nodeId}
+                                        key={nodeIdx}
                                         col={col}
                                         isStart={isStart}
                                         isFinish={isFinish}
@@ -169,6 +180,15 @@ export default class Visualizer extends Component {
         );
     }
 }
+
+const clearCells = () => {
+    for (let i = 0; i < 20; i++) {
+      for (let j = 0; j < 59; j++) {
+        document.getElementById(`node-${i}-${j}`).classList.remove('node-visited');
+        document.getElementById(`node-${i}-${j}`).classList.remove('node-shortest-path');
+      }
+    }
+};
 
 
 const getInitialGrid = () => {
@@ -201,7 +221,7 @@ const getNewGridWithWallToggled = (grid, row, col) => {
     const newGrid = grid.slice();
     const node = newGrid[row][col];
 
-    if(node.isStart === true || node.isFinish === true){
+    if(node.isStart || node.isFinish){
         const newNode = {
             ...node,
             isWall: false,
