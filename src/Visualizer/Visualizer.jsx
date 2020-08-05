@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import Node from './Nodes/Node';
+import NavBar from './NavBar/NavBar';
 import {dijkstra, getNodesInShortestPathOrder} from '../PathFinding-Algorithms/DijkstraAlgo';
 
 import './Visualizer.css';
 
-const START_NODE_ROW = 10;
+const START_NODE_ROW = 11;
 const START_NODE_COL = 7;
-const END_NODE_ROW = 10;
+const END_NODE_ROW = 11;
 const END_NODE_COL = 51;
-let speed = 5;
+let algorithm = "dijkstra";
+let speed = 6;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -16,7 +18,6 @@ export default class Visualizer extends Component {
         this.state = {
             grid: [],
             mouseIsPressed: false,
-            enabled: false,
         };
     }
 
@@ -28,11 +29,6 @@ export default class Visualizer extends Component {
     clear(){
         document.location.reload()
     }
-
-   /*clearAlgo(){
-        const newGrid = generateNewPhysicalGridPreserveWalls(this.state.grid);
-        this.setState({grid: newGrid});
-    }*/
 
     handleMouseDown(row, col){
         const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
@@ -47,6 +43,23 @@ export default class Visualizer extends Component {
 
     handleMouseUp(){
         this.setState({mouseIsPressed: false});
+    }
+
+    setSpeed(velocity){
+        speed = velocity;
+    }
+
+    setAlgorithm(Algo){
+        algorithm = Algo;
+    }
+
+    visualizeAlgo(){
+        if(algorithm === "dijkstra"){
+            this.visualizeDijkstra();
+        }
+        else if(algorithm === ""){
+            console.log("No Algo chose");
+        }
     }
 
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder){
@@ -67,10 +80,10 @@ export default class Visualizer extends Component {
 
             setTimeout(() => {
                 let node = visitedNodesInOrder[i];
-                if(node.row === 10 && node.col === 51){
+                if(node.row === 11 && node.col === 51){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image finish';
-                    }, speed);
+                    }, 30);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
             }, speed * i);
@@ -95,16 +108,16 @@ export default class Visualizer extends Component {
 
             setTimeout(() => {
                 let node = nodesInShortestPathOrder[i];
-                if(node.row === 10 && node.col === 51){
+                if(node.row === 11 && node.col === 51){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
-                    }, speed);
+                    }, 30);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
             }, 30 * i);
         }
         console.log(nodesInShortestPathOrder.length);
-        this.setState({enabled: false});
+
     }
 
 
@@ -113,11 +126,9 @@ export default class Visualizer extends Component {
             const node = nodesInShortestPathOrder[0];
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
         }, 30);
-        this.setState({enabled: false});
     }
 
     visualizeDijkstra(){
-        this.setState({enabled: true});
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
@@ -131,26 +142,17 @@ export default class Visualizer extends Component {
         const {grid, mouseIsPressed} = this.state;
 
         return (
-            <>
-                
-                <button class="Button Algos" disabled={this.state.enabled} onClick={() => this.visualizeDijkstra()}>
-                    Visualize Dijkstra's Algorithm
-                </button>
-                <button class="Button Clear" disabled={this.state.enabled} onClick={() => this.clear()}>
-                    Clear Grid
-                </button>
-                <button class="Button Fast" disabled={this.state.enabled} onClick={() => speed = 5}>
-                    Fast
-                </button>
-                <button class="Button Average" disabled={this.state.enabled} onClick={() => speed = 25}>
-                    Average
-                </button>
-                <button class="Button Slow" disabled={this.state.enabled} onClick={() => speed = 60}>
-                    Slow
-                </button>
-                <button class="Button ClearAlgo" disabled={this.state.enabled} onClick={() => clearCells()}>
-                    Clear Algorithm
-                </button>
+            
+            <div>
+                <NavBar
+                    onVisiualizePressed={() => this.visualizeAlgo()}
+                    onClearPressed={() => this.clear()}
+                    AdjustSlow={() => this.setSpeed(60)}
+                    AdjustAverage={() => this.setSpeed(25)}
+                    AdjustFast={() => this.setSpeed(6)}
+                    setDijkstra={() => this.setAlgorithm("dijkstra")}
+                />
+
 
                 <div className="grid">
                     {grid.map((row, rowIdx) => {
@@ -176,24 +178,15 @@ export default class Visualizer extends Component {
                         );
                     })}
                 </div>
-            </>
+            </div>
         );
     }
 }
 
-const clearCells = () => {
-    for (let i = 0; i < 20; i++) {
-      for (let j = 0; j < 59; j++) {
-        document.getElementById(`node-${i}-${j}`).classList.remove('node-visited');
-        document.getElementById(`node-${i}-${j}`).classList.remove('node-shortest-path');
-      }
-    }
-};
-
 
 const getInitialGrid = () => {
     const grid = []
-    for(let row = 0; row < 20; row++){
+    for(let row = 0; row < 22; row++){
         const currRow = [];
         for(let col = 0; col < 59; col++){
             currRow.push(createNode(col, row));
