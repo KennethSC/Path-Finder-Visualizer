@@ -7,11 +7,11 @@
 }
 
 .finish{
-    background: url(./images/red-target.png);
+    background: url(../../images/red-target.png);
 }
 
 .start{
-    background: url(./images/start-sign.png);
+    background: url(../../images/start-sign.png);
 }
 
 .node-image{
@@ -70,7 +70,7 @@
 }
 
 .No-Path{
-    background: url(./images/red-target.png);
+    background: url(../../images/red-target.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
