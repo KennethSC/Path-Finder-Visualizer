@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import Node from './Nodes/Node';
-import NavBar from './NavBar/NavBar';
-import {dijkstra, getNodesInShortestPathOrder} from '../PathFinding-Algorithms/DijkstraAlgo';
+import Node from '../Nodes/Node';
+import NavBar from '../NavBar/NavBar';
+import {dijkstra, getNodesInShortestPathOrder} from '../../PathFinding-Algorithms/DijkstraAlgo';
 
 import './Visualizer.css';
 
-const START_NODE_ROW = 11;
-const START_NODE_COL = 7;
-const END_NODE_ROW = 11;
-const END_NODE_COL = 51;
+const START_NODE_ROW = 12;
+const START_NODE_COL = 6;
+const END_NODE_ROW = 12;
+const END_NODE_COL = 52;
 let algorithm = "dijkstra";
-let speed = 6;
+let speed = 5;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -74,13 +74,13 @@ export default class Visualizer extends Component {
             if(i === 0){
                 setTimeout(() => {
                     let node = visitedNodesInOrder[i];
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image start';
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node start keep-image';
                 }, speed);
             } 
 
             setTimeout(() => {
                 let node = visitedNodesInOrder[i];
-                if(node.row === 11 && node.col === 51){
+                if(node.row === 12 && node.col === 52){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image finish';
                     }, 30);
@@ -108,13 +108,13 @@ export default class Visualizer extends Component {
 
             setTimeout(() => {
                 let node = nodesInShortestPathOrder[i];
-                if(node.row === 11 && node.col === 51){
+                if(node.row === 12 && node.col === 52){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
                     }, 30);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 30 * i);
+            }, 25 * i);
         }
         console.log(nodesInShortestPathOrder.length);
 
@@ -147,9 +147,9 @@ export default class Visualizer extends Component {
                 <NavBar
                     onVisiualizePressed={() => this.visualizeAlgo()}
                     onClearPressed={() => this.clear()}
-                    AdjustSlow={() => this.setSpeed(60)}
-                    AdjustAverage={() => this.setSpeed(25)}
-                    AdjustFast={() => this.setSpeed(6)}
+                    AdjustSlow={() => this.setSpeed(80)}
+                    AdjustAverage={() => this.setSpeed(35)}
+                    AdjustFast={() => this.setSpeed(5)}
                     setDijkstra={() => this.setAlgorithm("dijkstra")}
                 />
 
@@ -186,7 +186,7 @@ export default class Visualizer extends Component {
 
 const getInitialGrid = () => {
     const grid = []
-    for(let row = 0; row < 22; row++){
+    for(let row = 0; row < 24; row++){
         const currRow = [];
         for(let col = 0; col < 59; col++){
             currRow.push(createNode(col, row));

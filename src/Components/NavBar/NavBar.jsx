@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Portal from '../Portal/Portal'
 import {
   Container,
   Dropdown,
@@ -52,9 +53,8 @@ export default class NavigationBar extends Component {
             <Button color="red" style={{ marginRight: 16 }} onClick={() => onClearPressed()}>
               Clear Grid
             </Button>
-            <Button color="green" style={{ marginRight: 16 }} >
-              Help
-            </Button>
+            <Portal>
+            </Portal>
           </Menu.Item>
         </Container>
       </Menu>

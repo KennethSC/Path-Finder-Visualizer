@@ -1,10 +1,10 @@
 .grid{
-    margin: 130px 0 0;
+    margin: 78px 0 0;
     
 }
 
 body {
-    background-color: hsla(180, 50%, 45%, 1);
+    background-color: white;/* hsla(180, 50%, 45%, 1);*/
     overflow-y: hidden;
 }
 
