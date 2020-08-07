@@ -5,7 +5,6 @@ import {
   Dropdown,
   Image,
   Menu,
-  Button,
 } from "semantic-ui-react";
 
 
@@ -20,17 +19,17 @@ export default class NavigationBar extends Component {
 
   render() {
     //const { fixed } = this.state;
-    const { onVisiualizePressed, onClearPressed, AdjustSlow, AdjustAverage, AdjustFast, setDijkstra } = this.props;
+    const {AdjustSlow, AdjustAverage, AdjustFast, setDijkstra } = this.props;
 
     return (
       <Menu size="huge" fixed="top" inverted style={{ backgroundColor: "#061830" }}>
         <Container>
           <Menu.Item as="a" header>
-          <Image size="mini" src={require("../../images/pathFinderLogo.png")} style={{ marginRight: "1em" }}/>
+          <Image size="mini" src={require("../../images/pathFinderLogo.png")} style={{ marginLeft: "0em", marginRight: "1em" }}/>
             Path Finding Algorithm Visualizer
           </Menu.Item>
         
-          <Dropdown className="AlgoDropDown" item simple text="Algorithms">
+          <Dropdown id="ADP" className="AlgoDropDown" item simple text="Algorithms">
             <Dropdown.Menu >
               <Dropdown.Item onClick={() => setDijkstra()}>Dijkstra</Dropdown.Item>
               <Dropdown.Divider/>
@@ -46,13 +45,7 @@ export default class NavigationBar extends Component {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Menu.Item position="center"> 
-            <Button  style={{ marginRight: 16 }} color="blue" onClick={() => onVisiualizePressed()}>
-              Visualize
-            </Button>
-            <Button color="red" style={{ marginRight: 16 }} onClick={() => onClearPressed()}>
-              Clear Grid
-            </Button>
+          <Menu.Item position="right"> 
             <Portal>
             </Portal>
           </Menu.Item>
