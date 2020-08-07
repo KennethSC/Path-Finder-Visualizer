@@ -9,8 +9,8 @@ const START_NODE_ROW = 12;
 const START_NODE_COL = 6;
 const END_NODE_ROW = 12;
 const END_NODE_COL = 52;
-let algorithm = "dijkstra";
-let speed = 5;
+let algorithm = "";
+let speed = 7;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -18,6 +18,9 @@ export default class Visualizer extends Component {
         this.state = {
             grid: [],
             mouseIsPressed: false,
+            enabled: false,
+            choose: "Visualize",
+            style: "Visualize",
         };
     }
 
@@ -27,22 +30,28 @@ export default class Visualizer extends Component {
     }
 
     clear(){
-        document.location.reload()
+        window.location.reload(true);
     }
 
     handleMouseDown(row, col){
-        const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-        this.setState({grid: newGrid, mouseIsPressed: true});
+        if(!this.state.enabled){
+            const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+            this.setState({grid: newGrid, mouseIsPressed: true});
+        }
     }
 
     handleMouseEnter(row, col){
-        if(!this.state.mouseIsPressed) return;
-        const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-        this.setState({grid: newGrid}); 
+        if(!this.state.enabled){
+            if(!this.state.mouseIsPressed) return;
+            const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+            this.setState({grid: newGrid});
+        }
     }
 
     handleMouseUp(){
-        this.setState({mouseIsPressed: false});
+        if(!this.state.enabled){
+            this.setState({mouseIsPressed: false});
+        }
     }
 
     setSpeed(velocity){
@@ -51,6 +60,8 @@ export default class Visualizer extends Component {
 
     setAlgorithm(Algo){
         algorithm = Algo;
+        this.setState({choose: "Visualize"})
+        this.setState({style: "Visualize"});
     }
 
     visualizeAlgo(){
@@ -58,7 +69,8 @@ export default class Visualizer extends Component {
             this.visualizeDijkstra();
         }
         else if(algorithm === ""){
-            console.log("No Algo chose");
+            this.setState({choose: "Pick an Algorithm"});
+            this.setState({style: "Change"});
         }
     }
 
@@ -94,7 +106,7 @@ export default class Visualizer extends Component {
         if(nodesInShortestPathOrder.length <= 1){
             setTimeout(() =>{
                 this.animateNoPath(nodesInShortestPathOrder);
-            }, 30);
+            }, 28);
             return;
         }
 
@@ -103,7 +115,7 @@ export default class Visualizer extends Component {
                 setTimeout(() => {
                     let node = nodesInShortestPathOrder[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image start';
-                }, 30);
+                }, 28);
             }
 
             setTimeout(() => {
@@ -111,24 +123,26 @@ export default class Visualizer extends Component {
                 if(node.row === 12 && node.col === 52){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
-                    }, 30);
+                    }, 28);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 25 * i);
+            }, 28 * i);
         }
         console.log(nodesInShortestPathOrder.length);
+        this.setState({enabled: false})
 
     }
-
 
     animateNoPath(nodesInShortestPathOrder){
         setTimeout(() => {
             const node = nodesInShortestPathOrder[0];
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
         }, 30);
+        this.setState({enabled: false})
     }
 
     visualizeDijkstra(){
+        this.setState({enabled: true})
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
@@ -145,14 +159,17 @@ export default class Visualizer extends Component {
             
             <div>
                 <NavBar
-                    onVisiualizePressed={() => this.visualizeAlgo()}
-                    onClearPressed={() => this.clear()}
                     AdjustSlow={() => this.setSpeed(80)}
-                    AdjustAverage={() => this.setSpeed(35)}
-                    AdjustFast={() => this.setSpeed(5)}
+                    AdjustAverage={() => this.setSpeed(33)}
+                    AdjustFast={() => this.setSpeed(7)}
                     setDijkstra={() => this.setAlgorithm("dijkstra")}
                 />
-
+                <button disabled={this.state.enabled} class={this.state.style} onClick={() => this.visualizeAlgo()}>
+                    {this.state.choose}
+                </button>
+                <button class="Clear" onClick={() => this.clear()}>
+                    Clear Grid
+                </button>
 
                 <div className="grid">
                     {grid.map((row, rowIdx) => {
