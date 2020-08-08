@@ -19,19 +19,21 @@ export default class NavigationBar extends Component {
 
   render() {
     //const { fixed } = this.state;
-    const {AdjustSlow, AdjustAverage, AdjustFast, setDijkstra } = this.props;
+    const {AdjustSlow, AdjustAverage, AdjustFast, setDijkstra, settest } = this.props;
 
     return (
-      <Menu size="huge" fixed="top" inverted style={{ backgroundColor: "#061830" }}>
+      <Menu size="huge" fixed="top" inverted={true} style={{ backgroundColor: "#061830" }}>
         <Container>
           <Menu.Item as="a" header>
           <Image size="mini" src={require("../../images/pathFinderLogo.png")} style={{ marginLeft: "0em", marginRight: "1em" }}/>
             Path Finding Algorithm Visualizer
           </Menu.Item>
         
-          <Dropdown id="ADP" className="AlgoDropDown" item simple text="Algorithms">
+          <Dropdown item simple text="Algorithms">
             <Dropdown.Menu >
               <Dropdown.Item onClick={() => setDijkstra()}>Dijkstra</Dropdown.Item>
+              <Dropdown.Divider/>
+              <Dropdown.Item onClick={() => settest()}>Coolio</Dropdown.Item>
               <Dropdown.Divider/>
             </Dropdown.Menu>
           </Dropdown>

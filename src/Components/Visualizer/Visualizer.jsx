@@ -9,7 +9,6 @@ const START_NODE_ROW = 12;
 const START_NODE_COL = 6;
 const END_NODE_ROW = 12;
 const END_NODE_COL = 52;
-let algorithm = "";
 let speed = 7;
 
 export default class Visualizer extends Component {
@@ -19,29 +18,36 @@ export default class Visualizer extends Component {
             grid: [],
             mouseIsPressed: false,
             enabled: false,
+            draw: false,
             choose: "Visualize",
             style: "Visualize",
+            algorithm: "", 
         };
     }
 
     componentDidMount(){
         const grid = getInitialGrid();
         this.setState({grid});
+
+        setTimeout(() => {
+            this.setState({algorithm: localStorage.getItem('algorithm')});
+        }, 300);
     }
 
     clear(){
+        localStorage.setItem( 'algorithm', this.state.algorithm );
         window.location.reload(true);
     }
 
     handleMouseDown(row, col){
-        if(!this.state.enabled){
+        if(!this.state.draw){
             const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
             this.setState({grid: newGrid, mouseIsPressed: true});
         }
     }
 
     handleMouseEnter(row, col){
-        if(!this.state.enabled){
+        if(!this.state.draw){
             if(!this.state.mouseIsPressed) return;
             const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
             this.setState({grid: newGrid});
@@ -49,7 +55,7 @@ export default class Visualizer extends Component {
     }
 
     handleMouseUp(){
-        if(!this.state.enabled){
+        if(!this.state.draw){
             this.setState({mouseIsPressed: false});
         }
     }
@@ -59,16 +65,16 @@ export default class Visualizer extends Component {
     }
 
     setAlgorithm(Algo){
-        algorithm = Algo;
+        this.setState({algorithm: Algo});
         this.setState({choose: "Visualize"})
         this.setState({style: "Visualize"});
     }
 
     visualizeAlgo(){
-        if(algorithm === "dijkstra"){
+        if(this.state.algorithm === "dijkstra"){
             this.visualizeDijkstra();
         }
-        else if(algorithm === ""){
+        else{
             this.setState({choose: "Pick an Algorithm"});
             this.setState({style: "Change"});
         }
@@ -143,6 +149,7 @@ export default class Visualizer extends Component {
 
     visualizeDijkstra(){
         this.setState({enabled: true})
+        this.setState({draw: true})
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
@@ -163,11 +170,12 @@ export default class Visualizer extends Component {
                     AdjustAverage={() => this.setSpeed(33)}
                     AdjustFast={() => this.setSpeed(7)}
                     setDijkstra={() => this.setAlgorithm("dijkstra")}
+                    settest={() => this.setAlgorithm("coolio")}
                 />
-                <button disabled={this.state.enabled} class={this.state.style} onClick={() => this.visualizeAlgo()}>
+                <button disabled={this.state.enabled} className={this.state.style} onClick={() => this.visualizeAlgo()}>
                     {this.state.choose}
                 </button>
-                <button class="Clear" onClick={() => this.clear()}>
+                <button className="Clear" onClick={() => this.clear()}>
                     Clear Grid
                 </button>
 

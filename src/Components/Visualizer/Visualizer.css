@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: white;/* hsla(180, 50%, 45%, 1);*/
+    background-color: white;
     overflow-y: hidden;
 }
 
@@ -51,7 +51,7 @@ body {
     font-weight: 600;
     z-index: 1000;
     border-radius: 4px;
-    width: 153px;
+    width: 147px;
     height: 48px;
 
     transition-duration: 0.4s;
@@ -84,10 +84,34 @@ body {
     height: 48px;
     transition-duration: 0.4s;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: No-Algo;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
 
 }
 
 .Change:hover {
     background-color: rgb(178,34,34); 
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+@keyframes No-Algo{
+    0% {
+        transform: scale(0.6);
+        background-color: rgb(180, 38, 33);
+    }
+
+    50% {
+        transform: scale(1.2);
+        background-color: rgb(141, 20, 16);
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: rgb(214, 37, 31);
+    }
 }

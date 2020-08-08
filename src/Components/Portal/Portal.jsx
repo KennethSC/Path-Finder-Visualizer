@@ -25,7 +25,7 @@ export default class TransitionablePortalExampleControlled extends Component {
       <div>
         <Button
           size="big"
-          style={{width: "110px", height: "47.9px"}}
+          style={{marginLeft: '20.8em', width: "147px", height: "47.9px"}}
           content={open ? 'Close' : 'Help'}
           negative={open}
           positive={!open}
@@ -33,7 +33,7 @@ export default class TransitionablePortalExampleControlled extends Component {
         />
 
         <TransitionablePortal onClose={this.handleClose} open={open}>
-          <Segment inverted 
+          <Segment inverted={true} 
            style={{ backgroundColor: "#061830", marginLeft: '27em', height: '520px',
            position: 'fixed', top: '15%', zIndex: 1000, width: '650px' }}
            >
