@@ -12,7 +12,7 @@ import {
   TransitionablePortal,
 } from 'semantic-ui-react'
 
-export default class TransitionablePortalExampleControlled extends Component {
+export default class Portal extends Component {
   state = { open: false }
 
   handleClick = () => this.setState((prevState) => ({ open: !prevState.open }))
@@ -74,6 +74,6 @@ export default class TransitionablePortalExampleControlled extends Component {
           </Segment>
         </TransitionablePortal>
       </div>
-    )
+    )  
   }
 }
