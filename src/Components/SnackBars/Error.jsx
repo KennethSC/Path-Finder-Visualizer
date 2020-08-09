@@ -24,10 +24,6 @@ export default class Snack extends Component {
         this.setState({ open: true });
     };
 
-    message = (message) => {
-        this.setState({ message: message });
-    };
-
     render() {
         const { open } = this.state;
         return (
