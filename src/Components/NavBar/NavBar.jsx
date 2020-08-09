@@ -14,11 +14,7 @@ export default class NavigationBar extends Component {
     this.state = {};
   }
 
-  //hideFixedMenu = () => this.setState({ fixed: false });
- // showFixedMenu = () => this.setState({ fixed: true });
-
   render() {
-    //const { fixed } = this.state;
     const {AdjustSlow, AdjustAverage, AdjustFast, setDijkstra, settest } = this.props;
 
     return (
