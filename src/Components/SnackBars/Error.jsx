@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
-function Alert(props){return <MuiAlert elevation={6} variant="filled" {...props} />;
+function Alert(props){
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export default class Snack extends Component {
@@ -30,7 +31,7 @@ export default class Snack extends Component {
         <div>
             <Snackbar
                 onClose={this.handleClose}
-                autoHideDuration={11000}
+                autoHideDuration={15000}
                 open={open}
             >
             <Alert severity="error" onClose={this.handleClose}>

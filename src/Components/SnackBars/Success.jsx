@@ -33,17 +33,21 @@ export default class Snack extends Component {
         this.setState({ message: msg });
     };
 
+    setTime = (seconds) => {
+        this.setState({time: seconds})
+    }
+
     render() {
         const { open } = this.state;
         return (
         <div>
             <Snackbar
-                autoHideDuration={11000}
+                autoHideDuration={15000}
                 onClose={this.handleClose}
                 open={open}
             >
             <Alert severity="success" onClose={this.handleClose}>
-                Path Found! ( Path length: {this.state.message} steps )
+                Path Found! ( Path length: {this.state.message} steps, time: {this.state.time} ms )
             </Alert>
             </Snackbar>
             
