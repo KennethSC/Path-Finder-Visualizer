@@ -25,7 +25,7 @@ export default class Portal extends Component {
       <div>
         <Button
           size="big"
-          style={{marginLeft: '20.8em', width: "147px", height: "47.9px"}}
+          style={{marginLeft: '20.7em', width: "140px", height: "47.7px"}}
           content={open ? 'Close' : 'Help'}
           negative={open}
           positive={!open}
@@ -34,7 +34,7 @@ export default class Portal extends Component {
 
         <TransitionablePortal onClose={this.handleClose} open={open}>
           <Segment inverted={true} 
-           style={{ backgroundColor: "#061830", marginLeft: '27em', height: '520px',
+           style={{ backgroundColor: "#061830", marginLeft: '28.2em', height: '520px',
            position: 'fixed', top: '15%', zIndex: 1000, width: '650px' }}
            >
             <Header as='h1' textAlign='center'>Visualizer Tutorial</Header>
