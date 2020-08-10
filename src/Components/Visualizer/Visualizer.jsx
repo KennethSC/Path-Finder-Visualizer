@@ -3,7 +3,7 @@ import Node from '../Nodes/Node';
 import NavBar from '../NavBar/NavBar';
 import SnackBar from '../SnackBars/Success';
 import Error from '../SnackBars/Error';
-import {dijkstra, getNodesInShortestPathOrder} from '../../PathFinding-Algorithms/DijkstraAlgo';
+import {dijkstra, getNodesInShortestPathOrder} from '../../Algorithms/DijkstraAlgo';
 
 import './Visualizer.css';
 
@@ -31,7 +31,6 @@ export default class Visualizer extends Component {
         };
     }
 
-
     componentDidMount(){
         const grid = getInitialGrid();
         this.setState({grid});
@@ -40,7 +39,6 @@ export default class Visualizer extends Component {
             this.setState({algorithm: localStorage.getItem('algorithm')});
         }, 300);
     }
-
 
     clear(){
         localStorage.setItem( 'algorithm', this.state.algorithm );
@@ -54,7 +52,6 @@ export default class Visualizer extends Component {
         }
     }
 
-
     handleMouseEnter(row, col){
         if(!this.state.draw){
             if(!this.state.mouseIsPressed) return;
@@ -63,25 +60,21 @@ export default class Visualizer extends Component {
         }
     }
 
-
     handleMouseUp(){
         if(!this.state.draw){
             this.setState({mouseIsPressed: false});
         }
     }
 
-
     setSpeed(velocity){
         speed = velocity;
     }
-
 
     setAlgorithm(Algo){
         this.setState({algorithm: Algo});
         this.setState({choose: "Visualize"})
         style = "Visualize"
     }
-
 
     visualizeAlgo(){
         if(this.state.algorithm === "dijkstra"){
@@ -92,7 +85,6 @@ export default class Visualizer extends Component {
             style = "Change"
         }
     }
-
 
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder){
         for(let i = 0; i <= visitedNodesInOrder.length; i++){
@@ -122,12 +114,11 @@ export default class Visualizer extends Component {
         }
     }
 
-
     animateShortestPath(nodesInShortestPathOrder){
         if(nodesInShortestPathOrder.length <= 1){
             setTimeout(() =>{
                 this.animateNoPath(nodesInShortestPathOrder);
-            }, 30);
+            }, 33);
             return;
         }
 
@@ -136,7 +127,7 @@ export default class Visualizer extends Component {
                 setTimeout(() => {
                     let node = nodesInShortestPathOrder[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image start';
-                }, 30);
+                }, 33);
             }
 
             setTimeout(() => {
@@ -144,16 +135,15 @@ export default class Visualizer extends Component {
                 if(node.row === 11 && node.col === 51){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
-                    }, 30);
+                    }, 33);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 30 * i);
+            }, 33 * i);
         }
         this.setState({enabled: false})
         this.SnackElement.current.message(nodesInShortestPathOrder.length);
         this.SnackElement.current.openState();
     }
-
 
     animateNoPath(nodesInShortestPathOrder){
         setTimeout(() => {
@@ -164,72 +154,70 @@ export default class Visualizer extends Component {
         this.ErrorElement.current.openState();
     }
 
-
     visualizeDijkstra(){
         this.setState({enabled: true})
         this.setState({draw: true})
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
-        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+        const {visitedNodesInOrder, time} = dijkstra(grid, startNode, finishNode);
+        if(time) this.SnackElement.current.setTime(time);
         const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-        this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+        this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder, time);
     }
-
 
     render(){
         const {grid, mouseIsPressed} = this.state;
 
         return (
+          <>
+          <div>
+            <NavBar
+              AdjustSlow={() => this.setSpeed(70)}
+              AdjustAverage={() => this.setSpeed(33)}
+              AdjustFast={() => this.setSpeed(7)}
+              setDijkstra={() => this.setAlgorithm("dijkstra")}
+              settest={() => this.setAlgorithm("coolio")}
+            />
 
-            <>
-            <div>
-                <NavBar
-                    AdjustSlow={() => this.setSpeed(70)}
-                    AdjustAverage={() => this.setSpeed(30)}
-                    AdjustFast={() => this.setSpeed(7)}
-                    setDijkstra={() => this.setAlgorithm("dijkstra")}
-                    settest={() => this.setAlgorithm("coolio")}
-                />
+            <button disabled={this.state.enabled} className={style} onClick={() => this.visualizeAlgo()}>
+              {this.state.choose}
+            </button>
+            <button className="Clear" onClick={() => this.clear()}>
+              Clear Grid
+            </button>
 
-                <button disabled={this.state.enabled} className={style} onClick={() => this.visualizeAlgo()}>
-                    {this.state.choose}
-                </button>
-                <button className="Clear" onClick={() => this.clear()}>
-                    Clear Grid
-                </button>
+            <SnackBar ref={this.SnackElement} ></SnackBar>
+            <Error ref={this.ErrorElement} ></Error>
 
-                <SnackBar ref={this.SnackElement} ></SnackBar>
-                <Error ref={this.ErrorElement} ></Error>
-
-                <div className="grid">
-                    {grid.map((row, rowIdx) => {
-                        return(
-                        <div key={rowIdx}>
-                            {row.map((node, nodeIdx) => {
-                                const {row, col, isFinish, isStart, isWall} = node;
-                                return (
-                                    <Node
-                                        key={nodeIdx}
-                                        col={col}
-                                        isStart={isStart}
-                                        isFinish={isFinish}
-                                        isWall={isWall}
-                                        mouseIsPressed={mouseIsPressed}
-                                        onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-                                        onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
-                                        onMouseUp={() => this.handleMouseUp()}
-                                        row={row}></Node>
-                                    );
-                                })}
-                            </div>
+            <div className="grid">
+              {grid.map((row, rowIdx) => {
+                return(
+                  <div key={rowIdx}>
+                    {row.map((node, nodeIdx) => {
+                      const {row, col, isFinish, isStart, isWall} = node;
+                        return (
+                          <Node
+                            key={nodeIdx}
+                            col={col}
+                            isStart={isStart}
+                            isFinish={isFinish}
+                            isWall={isWall}
+                            mouseIsPressed={mouseIsPressed}
+                            onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+                            onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
+                            onMouseUp={() => this.handleMouseUp()}
+                            row={row}></Node>
                         );
                     })}
-                </div>
-            </div>
-          </>
-        );
-    }
+                 </div>
+               );
+             })}
+          </div>
+        </div>
+      </>
+    );
+  }
 }
 
 
