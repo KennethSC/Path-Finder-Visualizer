@@ -27,22 +27,13 @@ export default class Visualizer extends Component {
             enabled: false,
             draw: false,
             choose: "Visualize",
-            algorithm: "", 
+            algorithm: "",
         };
     }
 
     componentDidMount(){
         const grid = getInitialGrid();
         this.setState({grid});
-
-        setTimeout(() => {
-            this.setState({algorithm: localStorage.getItem('algorithm')});
-        }, 300);
-    }
-
-    clear(){
-        localStorage.setItem( 'algorithm', this.state.algorithm );
-        window.location.reload(true);
     }
 
     handleMouseDown(row, col){
@@ -86,6 +77,21 @@ export default class Visualizer extends Component {
         }
     }
 
+    clear() {
+        this.setState({ grid: [] });
+        const grid = getInitialGrid();
+        for(let row = 0; row < 23; row++){
+            for(let col = 0; col < 57; col++){
+                document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
+                document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
+                document.getElementById(`node-${row}-${col}`).classList.remove('keep-image');
+                document.getElementById(`node-${row}-${col}`).classList.remove('SSP-image');
+            }
+        }
+        this.setState({ grid });
+        this.setState({draw: false})
+    }
+
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder){
         for(let i = 0; i <= visitedNodesInOrder.length; i++){
             if(i === visitedNodesInOrder.length){
@@ -104,10 +110,10 @@ export default class Visualizer extends Component {
 
             setTimeout(() => {
                 let node = visitedNodesInOrder[i];
-                if(node.row === 11 && node.col === 51){
+                if(node.isFinish){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image finish';
-                    }, 30);
+                    }, 33);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
             }, speed * i);
@@ -132,7 +138,7 @@ export default class Visualizer extends Component {
 
             setTimeout(() => {
                 let node = nodesInShortestPathOrder[i];
-                if(node.row === 11 && node.col === 51){
+                if(node.isFinish){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
                     }, 33);
@@ -149,7 +155,7 @@ export default class Visualizer extends Component {
         setTimeout(() => {
             const node = nodesInShortestPathOrder[0];
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
-        }, 30);
+        }, 33);
         this.setState({enabled: false});
         this.ErrorElement.current.openState();
     }
@@ -174,7 +180,7 @@ export default class Visualizer extends Component {
           <div>
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
-              AdjustAverage={() => this.setSpeed(33)}
+              AdjustAverage={() => this.setSpeed(32)}
               AdjustFast={() => this.setSpeed(7)}
               setDijkstra={() => this.setAlgorithm("dijkstra")}
               settest={() => this.setAlgorithm("coolio")}
@@ -183,8 +189,8 @@ export default class Visualizer extends Component {
             <button disabled={this.state.enabled} className={style} onClick={() => this.visualizeAlgo()}>
               {this.state.choose}
             </button>
-            <button className="Clear" onClick={() => this.clear()}>
-              Clear Grid
+            <button disabled={this.state.enabled} className="Clear" onClick={() => this.clear()}>
+              Clear All
             </button>
 
             <SnackBar ref={this.SnackElement} ></SnackBar>

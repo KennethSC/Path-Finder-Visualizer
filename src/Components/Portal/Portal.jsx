@@ -25,7 +25,7 @@ export default class Portal extends Component {
       <div>
         <Button
           size="big"
-          style={{marginLeft: '20.7em', width: "140px", height: "47.7px"}}
+          style={{marginLeft: '20em', width: "133px", height: "47.7px"}}
           content={open ? 'Close' : 'Help'}
           negative={open}
           positive={!open}

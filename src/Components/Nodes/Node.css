@@ -8,13 +8,14 @@
 
 .finish{
     background: url(../../images/red-target.png);
+    background-color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .start{
     background: url(../../images/start-sign.png);
-}
-
-.node-image{
     background-color: white;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,9 +24,6 @@
 
 .keep-image{
     background-color: rgba(0, 190, 218, 0.75);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
 }
 
 
@@ -56,7 +54,7 @@
 }
 
 .SSP-image{
-    background-color: rgb(255, 254, 106);
+    background-color: greenyellow;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -111,7 +109,7 @@
 
     0% {
         transform: scale(0.6);
-        background-color: rgb(255, 254, 106);
+        background-color: brown/*rgb(255, 254, 106);*/
     }
 
     50% {
@@ -121,7 +119,7 @@
 
     100% {
         transform: scale(1);
-        background-color: rgb(255, 254, 106);
+        background-color: greenyellow
     }
 }
 
