@@ -47,7 +47,7 @@ export default class Snack extends Component {
                 open={open}
             >
             <Alert severity="success" onClose={this.handleClose}>
-                Path Found! ( Path length: {this.state.message} steps, time: {this.state.time} ms )
+                Path Found! ( Path length: {this.state.message} steps, Time: {this.state.time} ms )
             </Alert>
             </Snackbar>
             

@@ -31,6 +31,7 @@
     background-color: rgb(12, 53, 71);
 }
 
+
 .node-visited{
     animation-name: visitedAnimation;
     animation-duration: 1.5s;
@@ -74,7 +75,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     animation-name: No-Path;
-    animation-duration: 2s;
+    animation-duration: 1.8s;
     animation-timing-function: ease-out;
     animation-delay: 0;
     animation-iteration-count: 1;
@@ -83,22 +84,21 @@
 }
 
 .maze-wall{
+    outline: 2px solid skyblue;
     animation-name: maze;
-    animation-duration: .3s;
+    animation-duration: 1s;
     animation-timing-function: ease-out;
     animation-delay: 0;
-    animation-iteration-count: alternate;
+    animation-direction: alternate;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-play-state: running;
-
 }
 
 @keyframes visitedAnimation {
     0% {
       transform: scale(0.3);
       background-color: rgba(0, 0, 66, 0.75);
-      border-radius: 100%;
     }
   
     50% {
@@ -171,10 +171,12 @@
         transform: scale(0.8);
         background-color: rgb(12, 53, 71);
     }
+    
     50% {
         transform: scale(1.2);
         background-color: rgb(12, 53, 71);
     }
+
     100% {
         transform: scale(1);
         background-color: rgb(12, 53, 71); 

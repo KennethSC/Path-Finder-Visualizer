@@ -3,7 +3,8 @@ import Node from '../Nodes/Node';
 import NavBar from '../NavBar/NavBar';
 import SnackBar from '../SnackBars/Success';
 import Error from '../SnackBars/Error';
-import {genPerlinNoise} from '../../Algorithms/MazeAlgo';
+import {genNoiseMap} from '../../Algorithms/NoiseMapAlgo';
+import {genMaze} from '../../Algorithms/MazeAlgo';
 import {dijkstra, getNodesInShortestPathOrder} from '../../Algorithms/DijkstraAlgo';
 
 import './Visualizer.css';
@@ -12,8 +13,9 @@ const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
 const END_NODE_ROW = 11;
 const END_NODE_COL = 51;
+let DropDownDisable = false;
 let style = "Visualize"
-let speed = 10;
+let speed = 8;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -29,10 +31,6 @@ export default class Visualizer extends Component {
             draw: false,
             choose: "Visualize",
             algorithm: "",
-            perlinNoise: {
-                density: 1,
-                threshhold: .22
-            }
         };
     }
 
@@ -91,10 +89,12 @@ export default class Visualizer extends Component {
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
                 document.getElementById(`node-${row}-${col}`).classList.remove('keep-image');
                 document.getElementById(`node-${row}-${col}`).classList.remove('SSP-image');
+                document.getElementById(`node-${row}-${col}`).classList.remove('maze-wall');
             }
         }
         this.setState({ grid });
         this.setState({draw: false})
+        DropDownDisable = false;
     }
 
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder){
@@ -110,7 +110,7 @@ export default class Visualizer extends Component {
                 setTimeout(() => {
                     let node = visitedNodesInOrder[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node start keep-image';
-                }, speed);
+                }, 40);
             } 
 
             setTimeout(() => {
@@ -165,24 +165,34 @@ export default class Visualizer extends Component {
         this.ErrorElement.current.openState();
     }
 
-    Maze(nodes){
+    animateWalls(nodes){
         for(let i = 0; i < nodes.length; i++){
+            const node = nodes[i];
             setTimeout(() => {
-                let node = nodes[i];
+                node.isWall = true;
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node maze-wall';
-            });
+            }, 7 * i);
         }
         this.setState({enabled: false})
         this.setState({draw: false})
     }
 
-    makeMaze(){
+    NoiseMap(){
+        DropDownDisable = true;
         this.setState({enabled: true})
         this.setState({draw: true})
         const {grid} = this.state;
-        const perlin = this.state.perlinNoise;
-        const mazeNodes = genPerlinNoise(grid, perlin);
-        this.Maze(mazeNodes);
+        const NoiseMapNodes = genNoiseMap(grid);
+        this.animateWalls(NoiseMapNodes);
+    }
+
+    RandomMaze(){
+        DropDownDisable = true;
+        this.setState({enabled: true})
+        this.setState({draw: true})
+        const {grid} = this.state;
+        const MazeNodes = genMaze(grid);
+        this.animateWalls(MazeNodes);
     }
 
     visualizeDijkstra(){
@@ -206,9 +216,12 @@ export default class Visualizer extends Component {
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
               AdjustAverage={() => this.setSpeed(32)}
-              AdjustFast={() => this.setSpeed(10)}
+              AdjustFast={() => this.setSpeed(8)}
               setDijkstra={() => this.setAlgorithm("dijkstra")}
               settest={() => this.setAlgorithm("coolio")}
+              RandomMaze={() => this.RandomMaze()}
+              NoiseMap={() => this.NoiseMap()}
+              disabled={DropDownDisable}
             />
 
             <button disabled={this.state.enabled} className={style} onClick={() => this.visualizeAlgo()}>
@@ -216,9 +229,6 @@ export default class Visualizer extends Component {
             </button>
             <button disabled={this.state.enabled} className="Clear" onClick={() => this.clear()}>
                 Clear Grid
-            </button>
-            <button disabled={this.state.enabled} className="Maze" onClick={() => this.makeMaze()}>
-                Maze
             </button>
 
             <SnackBar ref={this.SnackElement} ></SnackBar>
