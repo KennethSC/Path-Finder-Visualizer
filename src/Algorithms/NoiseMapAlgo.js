@@ -9,8 +9,8 @@ export function genNoiseMap(grid) {
             const node = OG[row][col]
             if(node.isStart !== true && node.isFinish !== true){
                 if(node.row === 10 && node.col === 5) continue;
-                const val = Math.abs(perlin.gen(col/10 * 1.15, row/10 * 1.15))
-                if(val > .26) {
+                const val = Math.abs(perlin.gen(col/10 * 1.3, row/10 * 1.3))
+                if(val > .2) {
                    // node.isWall = true;
                     Nodes.push(node);
                 }
