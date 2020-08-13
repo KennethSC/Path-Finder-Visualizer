@@ -9,7 +9,7 @@ body {
 
 .Visualize{
     background-color: rgb( 130, 90,250);
-    left: 58.5%;
+    left: 56.3%;
     position: absolute;
     top: 2%;
     border: 5px white;
@@ -35,9 +35,10 @@ body {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-.Clear{
-    background-color:  rgb(214, 37, 31);
-    left: 72.5%;
+
+.ClearPath{
+    background-color: rgb(27, 133, 25);
+    left: 70.2%;
     position: absolute;
     top: 2%;
     border: 5px white;
@@ -50,7 +51,35 @@ body {
     font-weight: 600;
     z-index: 1000;
     border-radius: 4px;
-    width: 148px;
+    width: 148.5px;
+    height: 48px;
+
+    transition-duration: 0.4s;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    
+}
+
+.ClearPath:hover {
+    background-color: rgb(26, 104, 32); 
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.Clear{
+    background-color:  rgb(240, 24, 16);
+    left: 81.4%;
+    position: absolute;
+    top: 2%;
+    border: 5px white;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+    z-index: 1000;
+    border-radius: 4px;
+    width: 133px;
     height: 48px;
 
     transition-duration: 0.4s;
@@ -64,9 +93,9 @@ body {
 }
 
 
-.Change{
+.Pick-an-Algorithm{
     background-color: rgb(214, 37, 31);
-    left: 58.5%;
+    left: 56.3%;
     position: absolute;
     top: 2%;
     border: 5px white;
@@ -93,7 +122,7 @@ body {
 
 }
 
-.Change:hover {
+.Pick-an-Algorithm:hover {
     background-color: rgb(178,34,34); 
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
@@ -114,3 +143,4 @@ body {
         background-color: rgb(214, 37, 31);
     }
 }
+
