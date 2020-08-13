@@ -13,8 +13,6 @@ const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
 const END_NODE_ROW = 11;
 const END_NODE_COL = 51;
-let DropDownDisable = false;
-let style = "Visualize"
 let speed = 8;
 
 export default class Visualizer extends Component {
@@ -28,7 +26,6 @@ export default class Visualizer extends Component {
             grid: [],
             mouseIsPressed: false,
             enabled: false,
-            draw: false,
             choose: "Visualize",
             algorithm: "",
         };
@@ -40,14 +37,14 @@ export default class Visualizer extends Component {
     }
 
     handleMouseDown(row, col){
-        if(!this.state.draw){
+        if(!this.state.enabled){
             const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
             this.setState({grid: newGrid, mouseIsPressed: true});
         }
     }
 
     handleMouseEnter(row, col){
-        if(!this.state.draw){
+        if(!this.state.enabled){
             if(!this.state.mouseIsPressed) return;
             const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
             this.setState({grid: newGrid});
@@ -55,7 +52,7 @@ export default class Visualizer extends Component {
     }
 
     handleMouseUp(){
-        if(!this.state.draw){
+        if(!this.state.enabled){
             this.setState({mouseIsPressed: false});
         }
     }
@@ -67,7 +64,17 @@ export default class Visualizer extends Component {
     setAlgorithm(Algo){
         this.setState({algorithm: Algo});
         this.setState({choose: "Visualize"})
-        style = "Visualize"
+    }
+
+    setButtons(bool, timed){
+        if(timed){
+            setTimeout(() => {
+                this.setState({enabled: bool})
+            }, 2800)
+        }
+        else{
+            this.setState({enabled: bool})
+        }
     }
 
     visualizeAlgo(){
@@ -76,7 +83,6 @@ export default class Visualizer extends Component {
         }
         else{
             this.setState({choose: "Pick an Algorithm"});
-            style = "Change"
         }
     }
 
@@ -93,8 +99,33 @@ export default class Visualizer extends Component {
             }
         }
         this.setState({ grid });
-        this.setState({draw: false})
-        DropDownDisable = false;
+    }
+
+    clearPath(){
+        let grid = this.state.grid.slice();
+        for(let row = 0; row < 23; row++){
+            for(let col = 0; col < 57; col++){
+                let node = grid[row][col];
+                node.distance = Infinity;
+                node.isVisited = false
+                node.previousNode = null;
+                document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
+                document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
+                document.getElementById(`node-${row}-${col}`).classList.remove('keep-image');
+                document.getElementById(`node-${row}-${col}`).classList.remove('SSP-image');
+            }
+        }
+    }
+
+    clearMaze(){
+        let grid = this.state.grid.slice();
+        for(let row = 0; row < 23; row++){
+            for(let col = 0; col < 57; col++){
+                let node = grid[row][col];
+                node.isWall = false;
+                document.getElementById(`node-${row}-${col}`).classList.remove('maze-wall');
+            }
+        }
     }
 
     animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder){
@@ -151,7 +182,7 @@ export default class Visualizer extends Component {
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
             }, 40 * i);
         }
-        this.setState({enabled: false})
+        this.setButtons(false, 1);
         this.SnackElement.current.message(nodesInShortestPathOrder.length);
         this.SnackElement.current.openState();
     }
@@ -161,7 +192,7 @@ export default class Visualizer extends Component {
             const node = nodesInShortestPathOrder[0];
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
         }, 40);
-        this.setState({enabled: false});
+        this.setButtons(false, 1);
         this.ErrorElement.current.openState();
     }
 
@@ -171,33 +202,24 @@ export default class Visualizer extends Component {
             setTimeout(() => {
                 node.isWall = true;
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node maze-wall';
-            }, 7 * i);
+            }, 5 * i);
         }
-        this.setState({enabled: false})
-        this.setState({draw: false})
+        this.setButtons(false, 1);
     }
 
-    NoiseMap(){
-        DropDownDisable = true;
-        this.setState({enabled: true})
-        this.setState({draw: true})
+    visaulizeMaze(MazeType){
+        this.clearMaze();
+        this.clearPath();
+        this.setButtons(true, 0);
         const {grid} = this.state;
-        const NoiseMapNodes = genNoiseMap(grid);
-        this.animateWalls(NoiseMapNodes);
-    }
-
-    RandomMaze(){
-        DropDownDisable = true;
-        this.setState({enabled: true})
-        this.setState({draw: true})
-        const {grid} = this.state;
-        const MazeNodes = genMaze(grid);
+        const MazeNodes = MazeType(grid);
         this.animateWalls(MazeNodes);
+
     }
 
     visualizeDijkstra(){
-        this.setState({enabled: true})
-        this.setState({draw: true})
+        this.clearPath();
+        this.setButtons(true, 0);
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
@@ -215,20 +237,22 @@ export default class Visualizer extends Component {
           <div>
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
-              AdjustAverage={() => this.setSpeed(32)}
+              AdjustAverage={() => this.setSpeed(30)}
               AdjustFast={() => this.setSpeed(8)}
               setDijkstra={() => this.setAlgorithm("dijkstra")}
               settest={() => this.setAlgorithm("coolio")}
-              RandomMaze={() => this.RandomMaze()}
-              NoiseMap={() => this.NoiseMap()}
-              disabled={DropDownDisable}
+              RandomMaze={() => this.visaulizeMaze(genMaze)}
+              NoiseMap={() => this.visaulizeMaze(genNoiseMap)}
             />
 
-            <button disabled={this.state.enabled} className={style} onClick={() => this.visualizeAlgo()}>
+            <button disabled={this.state.enabled} className={this.state.choose.replace(/ /g, '-')} onClick={() => this.visualizeAlgo()}>
               {this.state.choose}
             </button>
             <button disabled={this.state.enabled} className="Clear" onClick={() => this.clear()}>
-                Clear Grid
+                Clear All
+            </button>
+            <button disabled={this.state.enabled} className="ClearPath" onClick={() => this.clearPath()}>
+                Clear Path
             </button>
 
             <SnackBar ref={this.SnackElement} ></SnackBar>
