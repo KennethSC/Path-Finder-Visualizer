@@ -25,7 +25,7 @@ export default class Portal extends Component {
       <div>
         <Button
           size="big"
-          style={{marginLeft: '20em', width: "138px", height: "47.7px"}}
+          style={{marginLeft: '28em', width: "105px", height: "47.7px"}}
           content={open ? 'Close' : 'Help'}
           negative={open}
           positive={!open}
@@ -34,8 +34,8 @@ export default class Portal extends Component {
 
         <TransitionablePortal onClose={this.handleClose} open={open}>
           <Segment inverted={true} 
-           style={{ backgroundColor: "#061830", marginLeft: '28.2em', height: '520px',
-           position: 'fixed', top: '15%', zIndex: 1000, width: '650px' }}
+           style={{ backgroundColor: "#061830", marginLeft: '28.2em', height: '530px',
+           position: 'fixed', top: '15%', zIndex: 1000, width: '665px' }}
            >
             <Header as='h1' textAlign='center'>Visualizer Tutorial</Header>
             <Divider>
@@ -44,19 +44,20 @@ export default class Portal extends Component {
                 <List.Item inverted as='a'>
                 <Icon name='arrow right' />
                     <List.Content>
-                        <List.Header>Choose an algorithm from the algorithms dropdown menu.</List.Header>
+                        <List.Header>Choose an algorithm from the Algorithms dropdown menu.</List.Header>
                     </List.Content>
                 </List.Item>
                 <List.Item inverted as='a'>
                 <Icon name='arrow right' />
                     <List.Content>
-                        <List.Header>Choose how fast you want to see the algorithm run from the speed dropdown menu.</List.Header>
+                        <List.Header>Choose how fast you want to see the algorithm run from the Speed dropdown menu.</List.Header>
                     </List.Content>
                 </List.Item>
                 <List.Item inverted as='a'>
                 <Icon name='arrow right' />
                     <List.Content>
-                        <List.Header>Click and drag anywhere on the grid to create walls for the algorithm to go around.</List.Header>
+                        <List.Header>Click and drag anywhere on the grid to create walls or create a maze
+                          with the Mazes dropdown menu for the algorithm to traverse.</List.Header>
                     </List.Content>
                 </List.Item>
                 <List.Item inverted as='a'>
