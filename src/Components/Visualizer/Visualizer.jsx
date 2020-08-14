@@ -250,7 +250,7 @@ export default class Visualizer extends Component {
             setTimeout(() => {
                 node.isWall = true;
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node maze-wall';
-            }, 4.5 * i);
+            }, 4 * i);
         }
         this.setButtons(false, 1);
     }
