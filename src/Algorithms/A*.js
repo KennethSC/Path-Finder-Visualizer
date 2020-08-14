@@ -1,6 +1,5 @@
 
 export function AStar(grid, startNode, finishNode) {
-    let t0 = performance.now();
     const visitedNodesInOrder = [];
     startNode.distance = 0;
     const unvisitedNodes = getAllNodes(grid); // Q: different from using grid or slice of grid???
@@ -13,17 +12,14 @@ export function AStar(grid, startNode, finishNode) {
         // If the closest node is at a distance of infinity,
         // we must be trapped and should stop.
         if (closestNode.distance === Infinity){
-            let time = 0;
-            return {visitedNodesInOrder, time};
+            return visitedNodesInOrder;
         }
 
         closestNode.isVisited = true;
         visitedNodesInOrder.push(closestNode);
 
         if (closestNode === finishNode){
-            let t1 = performance.now();
-            let time = Math.round(t1-t0);
-            return {visitedNodesInOrder, time};
+            return visitedNodesInOrder;
         }
         updateUnvisitedNeighbors(closestNode, grid);
       }

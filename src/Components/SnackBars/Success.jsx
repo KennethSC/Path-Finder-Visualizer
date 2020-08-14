@@ -12,8 +12,7 @@ export default class Snack extends Component {
         super(props);
         this.state = {
             open: false,
-            message: "47",
-            time: '',
+            message: "",
         };
     }
 
@@ -33,10 +32,6 @@ export default class Snack extends Component {
         this.setState({ message: msg });
     };
 
-    setTime = (seconds) => {
-        this.setState({time: seconds})
-    }
-
     render() {
         const { open } = this.state;
         return (
@@ -47,7 +42,7 @@ export default class Snack extends Component {
                 open={open}
             >
             <Alert severity="success" onClose={this.handleClose}>
-                Path Found! ( Path length: {this.state.message} steps, Time: {this.state.time} ms )
+                Path Found! ( Path length: {this.state.message} steps )
             </Alert>
             </Snackbar>
             

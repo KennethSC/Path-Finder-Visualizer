@@ -3,7 +3,6 @@
 // previous node, effectively allowing us to compute the shortest path
 // by backtracking from the finish node.
 export function dijkstra(grid, startNode, finishNode) {
-    let t0 = performance.now();
     const visitedNodesInOrder = [];
     startNode.distance = 0;
     const unvisitedNodes = getAllNodes(grid);
@@ -15,15 +14,12 @@ export function dijkstra(grid, startNode, finishNode) {
       // If the closest node is at a distance of infinity,
       // we must be trapped and should therefore stop.
       if (closestNode.distance === Infinity){
-        let time = 0;
-        return {visitedNodesInOrder, time};
+        return visitedNodesInOrder;
       }
       closestNode.isVisited = true;
       visitedNodesInOrder.push(closestNode);
       if (closestNode === finishNode){
-         let t1 = performance.now();
-         let time = Math.round(t1-t0);
-         return {visitedNodesInOrder, time};
+         return visitedNodesInOrder;
       }
       updateUnvisitedNeighbors(closestNode, grid);
     }

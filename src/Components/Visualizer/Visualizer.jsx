@@ -88,26 +88,22 @@ export default class Visualizer extends Component {
         if(this.state.algorithm === "dijkstra"){
             this.clearPath();
             this.setButtons(true, 0);
-            const {visitedNodesInOrder, time} = dijkstra(grid, startNode, finishNode);
+            const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
             const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            if(time) this.SnackElement.current.setTime(time);
             this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
         }
         else if(this.state.algorithm === "astar"){
             this.clearPath();
             this.setButtons(true, 0);
-            const {visitedNodesInOrder, time} = AStar(grid, startNode, finishNode);
+            const visitedNodesInOrder = AStar(grid, startNode, finishNode);
             const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            if(time) this.SnackElement.current.setTime(time);
             this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
         }
-       /* else if(this.state.algorithm === "bfs"){
+        else if(this.state.algorithm === "bfs"){
             this.clearPath();
             this.setButtons(true, 0);
             const visitedNodesInOrder = bfs(grid, startNode, finishNode);
             const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-           // nodesInShortestPathOrder.push(0);
-           // if(time) this.SnackElement.current.setTime(time);
             this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
         }
         else if(this.state.algorithm === "dfs"){
@@ -115,10 +111,8 @@ export default class Visualizer extends Component {
             this.setButtons(true, 0);
             const visitedNodesInOrder = dfs(grid, startNode, finishNode);
             const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            //nodesInShortestPathOrder.push(0);
-            //if(time) this.SnackElement.current.setTime(time);
             this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
-        }*/
+        }
         else{
             this.setState({choose: "Pick an Algorithm"});
             return;
@@ -178,6 +172,13 @@ export default class Visualizer extends Component {
     }
 
     animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder){
+        if(visitedNodesInOrder === undefined){
+            setTimeout(() => {
+                this.animateNoPath();
+            }, 40);
+            return;
+        }
+
         for(let i = 0; i <= visitedNodesInOrder.length; i++){
             if(i === visitedNodesInOrder.length ){
                 setTimeout(() => {
@@ -206,8 +207,8 @@ export default class Visualizer extends Component {
 
     animateShortestPath(nodesInShortestPathOrder){
         if(nodesInShortestPathOrder.length <= 1){
-            setTimeout(() =>{
-                this.animateNoPath(nodesInShortestPathOrder);
+            setTimeout(() => {
+                this.animateNoPath();
             }, 40);
             return;
         }
@@ -235,10 +236,9 @@ export default class Visualizer extends Component {
         this.SnackElement.current.openState();
     }
 
-    animateNoPath(nodesInShortestPathOrder){
+    animateNoPath(){
         setTimeout(() => {
-            const node = nodesInShortestPathOrder[0];
-            document.getElementById(`node-${node.row}-${node.col}`).className = 'node No-Path';
+            document.getElementById(`node-${END_NODE_ROW}-${END_NODE_COL}`).className = 'node No-Path';
         }, 40);
         this.setButtons(false, 1);
         this.ErrorElement.current.openState();

@@ -1,5 +1,4 @@
 export function dfs(grid, startNode, finishNode) {
-    let t0 = performance.now();
     const visitedNodesInOrder = [];
     const nextNodesStack = [];
     nextNodesStack.push(startNode);
@@ -7,9 +6,7 @@ export function dfs(grid, startNode, finishNode) {
       const currentNode = nextNodesStack.pop();
   
       if (currentNode === finishNode) {
-        let t1 = performance.now();
-        let time = Math.round(t1-t0);
-        return visitedNodesInOrder;//, time};
+        return visitedNodesInOrder;
       }
   
       if (
