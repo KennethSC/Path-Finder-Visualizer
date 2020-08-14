@@ -6,6 +6,9 @@ import Error from '../SnackBars/Error';
 import {genNoiseMap} from '../../Algorithms/NoiseMapAlgo';
 import {genMaze} from '../../Algorithms/MazeAlgo';
 import {dijkstra, getNodesInShortestPathOrder} from '../../Algorithms/DijkstraAlgo';
+import {AStar} from '../../Algorithms/A*';
+import {bfs} from '../../Algorithms/BFS';
+import {dfs} from '../../Algorithms/DFS';
 
 import './Visualizer.css';
 
@@ -70,7 +73,7 @@ export default class Visualizer extends Component {
         if(timed){
             setTimeout(() => {
                 this.setState({enabled: bool})
-            }, 2800)
+            }, 2700)
         }
         else{
             this.setState({enabled: bool})
@@ -78,12 +81,57 @@ export default class Visualizer extends Component {
     }
 
     visualizeAlgo(){
+        const {grid} = this.state;
+        const startNode = grid[START_NODE_ROW][START_NODE_COL];
+        const finishNode = grid[END_NODE_ROW][END_NODE_COL];
+
         if(this.state.algorithm === "dijkstra"){
-            this.visualizeDijkstra();
+            this.clearPath();
+            this.setButtons(true, 0);
+            const {visitedNodesInOrder, time} = dijkstra(grid, startNode, finishNode);
+            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+            if(time) this.SnackElement.current.setTime(time);
+            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
         }
+        else if(this.state.algorithm === "astar"){
+            this.clearPath();
+            this.setButtons(true, 0);
+            const {visitedNodesInOrder, time} = AStar(grid, startNode, finishNode);
+            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+            if(time) this.SnackElement.current.setTime(time);
+            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+        }
+       /* else if(this.state.algorithm === "bfs"){
+            this.clearPath();
+            this.setButtons(true, 0);
+            const visitedNodesInOrder = bfs(grid, startNode, finishNode);
+            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+           // nodesInShortestPathOrder.push(0);
+           // if(time) this.SnackElement.current.setTime(time);
+            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+        }
+        else if(this.state.algorithm === "dfs"){
+            this.clearPath();
+            this.setButtons(true, 0);
+            const visitedNodesInOrder = dfs(grid, startNode, finishNode);
+            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+            //nodesInShortestPathOrder.push(0);
+            //if(time) this.SnackElement.current.setTime(time);
+            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+        }*/
         else{
             this.setState({choose: "Pick an Algorithm"});
+            return;
         }
+    }
+    
+    visaulizeMaze(MazeType){
+        this.clearMaze();
+        this.clearPath();
+        this.setButtons(true, 0);
+        const {grid} = this.state;
+        const MazeNodes = MazeType(grid);
+        this.animateWalls(MazeNodes);
     }
 
     clear() {
@@ -109,6 +157,7 @@ export default class Visualizer extends Component {
                 node.distance = Infinity;
                 node.isVisited = false
                 node.previousNode = null;
+                node.distanceToFinishNode = Math.abs(END_NODE_ROW - node.row) + Math.abs(END_NODE_COL - node.col);
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
                 document.getElementById(`node-${row}-${col}`).classList.remove('keep-image');
@@ -128,9 +177,13 @@ export default class Visualizer extends Component {
         }
     }
 
-    animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder){
+    animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder){
         for(let i = 0; i <= visitedNodesInOrder.length; i++){
-            if(i === visitedNodesInOrder.length){
+            if(i === visitedNodesInOrder.length ){
+                setTimeout(() => {
+                    document.getElementById(`node-${END_NODE_ROW}-${END_NODE_COL}`).className = 'node keep-image finish';
+                }, speed * i);
+
                 setTimeout(() =>{
                     this.animateShortestPath(nodesInShortestPathOrder);
                 }, speed * i);
@@ -146,11 +199,6 @@ export default class Visualizer extends Component {
 
             setTimeout(() => {
                 let node = visitedNodesInOrder[i];
-                if(node.isFinish){
-                    setTimeout(() => {
-                        document.getElementById(`node-${node.row}-${node.col}`).className = 'node keep-image finish';
-                    }, 40);
-                }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
             }, speed * i);
         }
@@ -202,31 +250,9 @@ export default class Visualizer extends Component {
             setTimeout(() => {
                 node.isWall = true;
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node maze-wall';
-            }, 5 * i);
+            }, 4.5 * i);
         }
         this.setButtons(false, 1);
-    }
-
-    visaulizeMaze(MazeType){
-        this.clearMaze();
-        this.clearPath();
-        this.setButtons(true, 0);
-        const {grid} = this.state;
-        const MazeNodes = MazeType(grid);
-        this.animateWalls(MazeNodes);
-
-    }
-
-    visualizeDijkstra(){
-        this.clearPath();
-        this.setButtons(true, 0);
-        const {grid} = this.state;
-        const startNode = grid[START_NODE_ROW][START_NODE_COL];
-        const finishNode = grid[END_NODE_ROW][END_NODE_COL];
-        const {visitedNodesInOrder, time} = dijkstra(grid, startNode, finishNode);
-        if(time) this.SnackElement.current.setTime(time);
-        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-        this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder, time);
     }
 
     render(){
@@ -240,7 +266,9 @@ export default class Visualizer extends Component {
               AdjustAverage={() => this.setSpeed(30)}
               AdjustFast={() => this.setSpeed(8)}
               setDijkstra={() => this.setAlgorithm("dijkstra")}
-              settest={() => this.setAlgorithm("coolio")}
+              setAStar={() => this.setAlgorithm("astar")}
+              setBFS={() => this.setAlgorithm("bfs")}
+              setDFS={() => this.setAlgorithm("dfs")}
               RandomMaze={() => this.visaulizeMaze(genMaze)}
               NoiseMap={() => this.visaulizeMaze(genNoiseMap)}
             />
@@ -308,6 +336,7 @@ const createNode = (row, col) => {
         row,
         isStart: row === START_NODE_ROW && col === START_NODE_COL,
         isFinish: row === END_NODE_ROW && col === END_NODE_COL,
+        distanceToFinishNode: Math.abs(END_NODE_ROW - row) + Math.abs(END_NODE_COL - col),
         distance: Infinity,
         isVisited: false,
         isWall: false,
