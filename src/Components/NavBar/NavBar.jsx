@@ -15,7 +15,10 @@ export default class NavigationBar extends Component {
   }
 
   render() {
-    const {AdjustSlow, AdjustAverage, AdjustFast, setDijkstra, setAStar, setBFS, setDFS, NoiseMap, RandomMaze} = this.props;
+    const {AdjustSlow, AdjustAverage, AdjustFast,
+          setDijkstra, setAStar, setBFS,
+          setDFS, setGreedy, NoiseMap, 
+          RandomMaze, StairCase} = this.props;
 
     return (
       <Menu size="huge" fixed="top" inverted={true} style={{ backgroundColor: "#061830" }}>
@@ -34,6 +37,8 @@ export default class NavigationBar extends Component {
               <Dropdown.Item onClick={() => setBFS()}>BFS</Dropdown.Item>
               <Dropdown.Divider/>
               <Dropdown.Item onClick={() => setDFS()}>DFS</Dropdown.Item>
+              <Dropdown.Divider/>
+              <Dropdown.Item onClick={() => setGreedy()}>Greedy BFS</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <Dropdown item simple text="Speed">
@@ -50,6 +55,8 @@ export default class NavigationBar extends Component {
               <Dropdown.Item onClick={() => RandomMaze()}>Random Maze</Dropdown.Item>
               <Dropdown.Divider/>
               <Dropdown.Item onClick={() => NoiseMap()}>Noise Map</Dropdown.Item>
+              <Dropdown.Divider/>
+              <Dropdown.Item onClick={() => StairCase()}>Stair Case</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
