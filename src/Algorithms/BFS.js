@@ -7,10 +7,7 @@ export function bfs(grid, startNode, finishNode) {
         return visitedNodesInOrder;
       }
   
-      if (
-        !currentNode.isWall &&
-        (currentNode.isStart || !currentNode.isVisited)
-      ) {
+      if (!currentNode.isWall && (currentNode.isStart || !currentNode.isVisited)){
         currentNode.isVisited = true;
         visitedNodesInOrder.push(currentNode);
         const {col, row} = currentNode;
@@ -45,6 +42,7 @@ export function bfs(grid, startNode, finishNode) {
         }
       }
     }
+    return visitedNodesInOrder;
   }
 
 export function getNodesInShortestPathOrder(finishNode) {
