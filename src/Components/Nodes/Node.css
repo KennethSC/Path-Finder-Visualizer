@@ -86,7 +86,7 @@
 .maze-wall{
     outline: 2px solid skyblue;
     animation-name: maze;
-    animation-duration: 1s;
+    animation-duration: .7s;
     animation-timing-function: ease-out;
     animation-delay: 0;
     animation-direction: alternate;
