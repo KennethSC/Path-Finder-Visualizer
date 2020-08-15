@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
+
 import Node from '../Nodes/Node';
 import NavBar from '../NavBar/NavBar';
-import SnackBar from '../SnackBars/Success';
 import Error from '../SnackBars/Error';
-import {genNoiseMap} from '../../Algorithms/NoiseMapAlgo';
+import SnackBar from '../SnackBars/Success';
+import {staircase} from '../../Algorithms/StairCase';
 import {genMaze} from '../../Algorithms/MazeAlgo';
-import {dijkstra, getNodesInShortestPathOrder} from '../../Algorithms/DijkstraAlgo';
-import {AStar} from '../../Algorithms/A*';
+import {genNoiseMap} from '../../Algorithms/NoiseMapAlgo';
 import {bfs} from '../../Algorithms/BFS';
 import {dfs} from '../../Algorithms/DFS';
+import {AStar} from '../../Algorithms/A*';
+import {greedyBFS} from '../../Algorithms/GreedyBFS';
+import {dijkstra, getNodesInShortestPathOrder} from '../../Algorithms/DijkstraAlgo';
 
 import './Visualizer.css';
 
@@ -16,7 +19,7 @@ const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
 const END_NODE_ROW = 11;
 const END_NODE_COL = 51;
-let speed = 8;
+let speed = 9;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -73,7 +76,7 @@ export default class Visualizer extends Component {
         if(timed){
             setTimeout(() => {
                 this.setState({enabled: bool})
-            }, 2700)
+            }, 2600)
         }
         else{
             this.setState({enabled: bool})
@@ -84,39 +87,39 @@ export default class Visualizer extends Component {
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[END_NODE_ROW][END_NODE_COL];
+        let visitedNodesInOrder;
 
         if(this.state.algorithm === "dijkstra"){
             this.clearPath();
             this.setButtons(true, 0);
-            const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+            visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
         }
         else if(this.state.algorithm === "astar"){
             this.clearPath();
             this.setButtons(true, 0);
-            const visitedNodesInOrder = AStar(grid, startNode, finishNode);
-            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+            visitedNodesInOrder = AStar(grid, startNode, finishNode);
         }
         else if(this.state.algorithm === "bfs"){
             this.clearPath();
             this.setButtons(true, 0);
-            const visitedNodesInOrder = bfs(grid, startNode, finishNode);
-            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+            visitedNodesInOrder = bfs(grid, startNode, finishNode);
         }
         else if(this.state.algorithm === "dfs"){
             this.clearPath();
             this.setButtons(true, 0);
-            const visitedNodesInOrder = dfs(grid, startNode, finishNode);
-            const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-            this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+            visitedNodesInOrder = dfs(grid, startNode, finishNode);
+        }
+        else if(this.state.algorithm === "greedy"){
+            this.clearPath();
+            this.setButtons(true, 0);
+            visitedNodesInOrder = greedyBFS(grid, startNode, finishNode);
         }
         else{
             this.setState({choose: "Pick an Algorithm"});
             return;
         }
+        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+        this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
     }
     
     visaulizeMaze(MazeType){
@@ -151,7 +154,9 @@ export default class Visualizer extends Component {
                 node.distance = Infinity;
                 node.isVisited = false
                 node.previousNode = null;
-                node.distanceToFinishNode = Math.abs(END_NODE_ROW - node.row) + Math.abs(END_NODE_COL - node.col);
+                node.fCost = 0;
+                node.gCost = 0;
+                node.hCost = 0;
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
                 document.getElementById(`node-${row}-${col}`).classList.remove('keep-image');
@@ -172,13 +177,6 @@ export default class Visualizer extends Component {
     }
 
     animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder){
-        if(visitedNodesInOrder === undefined){
-            setTimeout(() => {
-                this.animateNoPath();
-            }, 40);
-            return;
-        }
-
         for(let i = 0; i <= visitedNodesInOrder.length; i++){
             if(i === visitedNodesInOrder.length ){
                 setTimeout(() => {
@@ -209,7 +207,7 @@ export default class Visualizer extends Component {
         if(nodesInShortestPathOrder.length <= 1){
             setTimeout(() => {
                 this.animateNoPath();
-            }, 40);
+            }, 38);
             return;
         }
 
@@ -218,7 +216,7 @@ export default class Visualizer extends Component {
                 setTimeout(() => {
                     let node = nodesInShortestPathOrder[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image start';
-                }, 40);
+                }, 38);
             }
 
             setTimeout(() => {
@@ -226,10 +224,10 @@ export default class Visualizer extends Component {
                 if(node.isFinish){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
-                    }, 40);
+                    }, 38);
                 }
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-            }, 40 * i);
+            }, 38 * i);
         }
         this.setButtons(false, 1);
         this.SnackElement.current.message(nodesInShortestPathOrder.length);
@@ -264,13 +262,15 @@ export default class Visualizer extends Component {
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
               AdjustAverage={() => this.setSpeed(30)}
-              AdjustFast={() => this.setSpeed(8)}
+              AdjustFast={() => this.setSpeed(9)}
               setDijkstra={() => this.setAlgorithm("dijkstra")}
               setAStar={() => this.setAlgorithm("astar")}
               setBFS={() => this.setAlgorithm("bfs")}
               setDFS={() => this.setAlgorithm("dfs")}
+              setGreedy={() => this.setAlgorithm("greedy")}
               RandomMaze={() => this.visaulizeMaze(genMaze)}
               NoiseMap={() => this.visaulizeMaze(genNoiseMap)}
+              StairCase={() => this.visaulizeMaze(staircase)}
             />
 
             <button disabled={this.state.enabled} className={this.state.choose.replace(/ /g, '-')} onClick={() => this.visualizeAlgo()}>
@@ -336,11 +336,13 @@ const createNode = (row, col) => {
         row,
         isStart: row === START_NODE_ROW && col === START_NODE_COL,
         isFinish: row === END_NODE_ROW && col === END_NODE_COL,
-        distanceToFinishNode: Math.abs(END_NODE_ROW - row) + Math.abs(END_NODE_COL - col),
         distance: Infinity,
         isVisited: false,
         isWall: false,
         previousNode: null,
+        fCost: 0,
+        gCost: 0,
+        hCost: 0,
     };
 };
 
