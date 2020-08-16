@@ -2,6 +2,7 @@ export function dfs(grid, startNode, finishNode) {
     const visitedNodesInOrder = [];
     const nextNodesStack = [];
     nextNodesStack.push(startNode);
+    
     while (nextNodesStack.length) {
       const currentNode = nextNodesStack.pop();
   

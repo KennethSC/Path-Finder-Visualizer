@@ -1,9 +1,9 @@
 export function AStar(grid, startNode, finishNode) {
   const visitedNodesInOrder = [];
-
   const openList = [];
   const closeList = []; 
   openList.push(startNode);
+  
   while (openList.length > 0) {
       let lowInd = 0;
       for (let i=0; i<openList.length; i++) {
