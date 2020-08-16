@@ -9,7 +9,7 @@ export function genNoiseMap(grid) {
             const node = OG[row][col]
             if(node.isStart !== true && node.isFinish !== true){
                 if(node.row === 10 && node.col === 5) continue;
-                const val = Math.abs(perlin.gen(col/10 * 1.5, row/10 * 1.5))
+                const val = Math.abs(perlin.gen(col/10 * 1.7, row/10 * 1.7))
                 if(val > .21) {
                     Nodes.push(node);
                 }
