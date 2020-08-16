@@ -11,7 +11,7 @@ import {bfs} from '../../Algorithms/BFS';
 import {dfs} from '../../Algorithms/DFS';
 import {AStar} from '../../Algorithms/A*';
 import {greedyBFS} from '../../Algorithms/GreedyBFS';
-import {dijkstra, getNodesInShortestPathOrder} from '../../Algorithms/DijkstraAlgo';
+import {dijkstra, getNodesInShortestPath} from '../../Algorithms/DijkstraAlgo';
 
 import './Visualizer.css';
 
@@ -38,13 +38,13 @@ export default class Visualizer extends Component {
     }
 
     componentDidMount(){
-        const grid = getInitialGrid();
+        const grid = startGrid();
         this.setState({grid});
     }
 
     handleMouseDown(row, col){
         if(!this.state.enabled){
-            const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+            const newGrid = updateGridWalls(this.state.grid, row, col);
             this.setState({grid: newGrid, mouseIsPressed: true});
         }
     }
@@ -52,7 +52,7 @@ export default class Visualizer extends Component {
     handleMouseEnter(row, col){
         if(!this.state.enabled){
             if(!this.state.mouseIsPressed) return;
-            const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+            const newGrid = updateGridWalls(this.state.grid, row, col);
             this.setState({grid: newGrid});
         }
     }
@@ -86,40 +86,40 @@ export default class Visualizer extends Component {
     visualizeAlgo(){
         const {grid} = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
-        const finishNode = grid[END_NODE_ROW][END_NODE_COL];
-        let visitedNodesInOrder;
+        const targetNode = grid[END_NODE_ROW][END_NODE_COL];
+        let visitedNodes;
 
         if(this.state.algorithm === "dijkstra"){
             this.clearPath();
             this.setButtons(true, 0);
-            visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+            visitedNodes = dijkstra(grid, startNode, targetNode);
         }
         else if(this.state.algorithm === "astar"){
             this.clearPath();
             this.setButtons(true, 0);
-            visitedNodesInOrder = AStar(grid, startNode, finishNode);
+            visitedNodes = AStar(grid, startNode, targetNode);
         }
         else if(this.state.algorithm === "bfs"){
             this.clearPath();
             this.setButtons(true, 0);
-            visitedNodesInOrder = bfs(grid, startNode, finishNode);
+            visitedNodes = bfs(grid, startNode, targetNode);
         }
         else if(this.state.algorithm === "dfs"){
             this.clearPath();
             this.setButtons(true, 0);
-            visitedNodesInOrder = dfs(grid, startNode, finishNode);
+            visitedNodes = dfs(grid, startNode, targetNode);
         }
         else if(this.state.algorithm === "greedy"){
             this.clearPath();
             this.setButtons(true, 0);
-            visitedNodesInOrder = greedyBFS(grid, startNode, finishNode);
+            visitedNodes = greedyBFS(grid, startNode, targetNode);
         }
         else{
             this.setState({choose: "Pick an Algorithm"});
             return;
         }
-        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-        this.animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder);
+        const nodesInShortestPath = getNodesInShortestPath(targetNode);
+        this.animateAlgo(visitedNodes, nodesInShortestPath);
     }
     
     visaulizeMaze(MazeType){
@@ -133,7 +133,7 @@ export default class Visualizer extends Component {
 
     clear() {
         this.setState({ grid: [] });
-        const grid = getInitialGrid();
+        const grid = startGrid();
         for(let row = 0; row < 23; row++){
             for(let col = 0; col < 57; col++){
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
@@ -176,51 +176,51 @@ export default class Visualizer extends Component {
         }
     }
 
-    animateAlgo(visitedNodesInOrder, nodesInShortestPathOrder){
-        for(let i = 0; i <= visitedNodesInOrder.length; i++){
-            if(i === visitedNodesInOrder.length ){
+    animateAlgo(visitedNodes, nodesInShortestPath){
+        for(let i = 0; i <= visitedNodes.length; i++){
+            if(i === visitedNodes.length){
                 setTimeout(() => {
                     document.getElementById(`node-${END_NODE_ROW}-${END_NODE_COL}`).className = 'node keep-image finish';
                 }, speed * i);
 
                 setTimeout(() =>{
-                    this.animateShortestPath(nodesInShortestPathOrder);
+                    this.animateShortestPath(nodesInShortestPath);
                 }, speed * i);
                 return;
             }
 
             if(i === 0){
                 setTimeout(() => {
-                    let node = visitedNodesInOrder[i];
+                    let node = visitedNodes[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node start keep-image';
                 }, 40);
             } 
 
             setTimeout(() => {
-                let node = visitedNodesInOrder[i];
+                let node = visitedNodes[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
             }, speed * i);
         }
     }
 
-    animateShortestPath(nodesInShortestPathOrder){
-        if(nodesInShortestPathOrder.length <= 1){
+    animateShortestPath(nodesInShortestPath){
+        if(nodesInShortestPath.length <= 1){
             setTimeout(() => {
                 this.animateNoPath();
             }, 38);
             return;
         }
 
-        for(let i = 0; i < nodesInShortestPathOrder.length; i++){
+        for(let i = 0; i < nodesInShortestPath.length; i++){
             if(i === 0){
                 setTimeout(() => {
-                    let node = nodesInShortestPathOrder[i];
+                    let node = nodesInShortestPath[i];
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image start';
                 }, 38);
             }
 
             setTimeout(() => {
-                let node = nodesInShortestPathOrder[i];
+                let node = nodesInShortestPath[i];
                 if(node.isFinish){
                     setTimeout(() => {
                         document.getElementById(`node-${node.row}-${node.col}`).className = 'node SSP-image finish';
@@ -230,7 +230,7 @@ export default class Visualizer extends Component {
             }, 38 * i);
         }
         this.setButtons(false, 1);
-        this.SnackElement.current.message(nodesInShortestPathOrder.length);
+        this.SnackElement.current.message(nodesInShortestPath.length);
         this.SnackElement.current.openState();
     }
 
@@ -295,6 +295,7 @@ export default class Visualizer extends Component {
                         return (
                           <Node
                             key={nodeIdx}
+                            row={row}
                             col={col}
                             isStart={isStart}
                             isFinish={isFinish}
@@ -303,7 +304,7 @@ export default class Visualizer extends Component {
                             onMouseDown={(row, col) => this.handleMouseDown(row, col)}
                             onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
                             onMouseUp={() => this.handleMouseUp()}
-                            row={row}></Node>
+                            ></Node>
                         );
                     })}
                  </div>
@@ -317,23 +318,23 @@ export default class Visualizer extends Component {
 }
 
 
-const getInitialGrid = () => {
+const startGrid = () => {
     const grid = []
     for(let row = 0; row < 23; row++){
-        const currRow = [];
+        const gridRow = [];
         for(let col = 0; col < 57; col++){
-            currRow.push(createNode(row, col));
+            gridRow.push(newNode(row, col));
         }
-        grid.push(currRow);
+        grid.push(gridRow);
     }
     return grid;
 };
 
 
-const createNode = (row, col) => {
+const newNode = (row, col) => {
     return{
-        col,
         row,
+        col,
         isStart: row === START_NODE_ROW && col === START_NODE_COL,
         isFinish: row === END_NODE_ROW && col === END_NODE_COL,
         distance: Infinity,
@@ -346,7 +347,7 @@ const createNode = (row, col) => {
     };
 };
 
-const getNewGridWithWallToggled = (grid, row, col) => {
+const updateGridWalls = (grid, row, col) => {
     const newGrid = grid.slice();
     const node = newGrid[row][col];
 
@@ -356,6 +357,7 @@ const getNewGridWithWallToggled = (grid, row, col) => {
             isWall: false,
         };
         newGrid[row][col] = newNode;
+
         return newGrid;
     }
 
@@ -364,5 +366,6 @@ const getNewGridWithWallToggled = (grid, row, col) => {
         isWall: !node.isWall,
     };
     newGrid[row][col] = newNode;
+
     return newGrid;
 };
