@@ -4,14 +4,14 @@ import './Node.css';
 export default class Node extends Component{
 
     render(){
-        const {col, 
-              isFinish,
-              isStart,
-              isWall,
-              onMouseDown,
-              onMouseEnter,
-              onMouseUp,
-              row} = this.props;
+        const {row,
+               col,
+               isStart, 
+               isFinish,
+               isWall,
+               onMouseDown,
+               onMouseEnter,
+               onMouseUp} = this.props;
 
         const extraClassName = isFinish ? 'finish' : isStart ? 'start' : isWall ? 'node-wall' : '';
 
