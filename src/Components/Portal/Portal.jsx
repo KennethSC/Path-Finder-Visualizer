@@ -35,7 +35,7 @@ export default class Portal extends Component {
         <TransitionablePortal onClose={this.handleClose} open={open}>
           <Segment inverted={true} 
            style={{ backgroundColor: "#061830", marginLeft: '28.2em', height: '530px',
-           position: 'fixed', top: '15%', zIndex: 1000, width: '665px' }}
+           position: 'fixed', top: '15%', zIndex: 1000, width: '675px' }}
            >
             <Header as='h1' textAlign='center'>Visualizer Tutorial</Header>
             <Divider>
