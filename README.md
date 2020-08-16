@@ -1,8 +1,8 @@
 ## Description
 
-Try a live version here: (Link Goes Here)<br/><br/>
+Try a live version here: (Link Goes Here)<br/>
 
-This is a pathfinding visualiztion tool that animates several well known pathfinding algorithms. The main component is an interactive grid where you could make obstacles for the different algorithms to traverse or you could also choose to animate several different mazes onto the grid. The main goal of this project is to help the user visualize different pathfinding algorithms to hopefully get a better understanding of how they work. The pathfinding algorithms that were implemented in this projects are:<br />
+This is a pathfinding visualiztion tool that animates several well known pathfinding algorithms. The main component is an interactive grid where you could make obstacles for the different algorithms to traverse or you could also choose to animate several different mazes onto the grid. The main goal of this project is to help the user visualize different pathfinding algorithms to hopefully get a better understanding of how they work. The pathfinding algorithms that were implemented in this project are:<br />
 
 
 **Guaranteed to find the shortest possible path** <br/>
@@ -29,7 +29,7 @@ The only requirement for this project is that you must have npm installed. You c
 
 ## Usage
 
-Clone this repository in your terminal using this command: git clone https://github.com/KennethSC/Path-Finder-Visualizer.git<br/>
+Clone this repository with this command: git clone https://github.com/KennethSC/Path-Finder-Visualizer.git<br/>
 Once the repository is cloned, run this command in the project's directory: 'npm start'.<br/>
 <br/>
 If you don't want to clone the repository then you could just feel free to use it here whenever: (Link Goes HERE)
