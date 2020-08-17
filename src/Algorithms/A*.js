@@ -1,69 +1,67 @@
-export function AStar(grid, startNode, finishNode) {
-  const visitedNodesInOrder = [];
-  const openList = [];
-  const closeList = []; 
-  openList.push(startNode);
-  
-  while (openList.length > 0) {
-      let lowInd = 0;
-      for (let i=0; i<openList.length; i++) {
-          if (openList[i].fCost < openList[lowInd].fCost) { lowInd = i; }
-      }
-      const currentNode = openList[lowInd];
-      visitedNodesInOrder.push(currentNode);
+export function AStar(grid, startNode, targetNode) {
+    const visitedNodes = [];
+    const queue = [];
+    const processing = []; 
+    queue.push(startNode);
 
-      if (currentNode.row === finishNode.row && currentNode.col === finishNode.col) {
-          return visitedNodesInOrder;
-      }
+    while(queue.length > 0){
+        let lowBound = 0;
+        
+        for(let i=0; i<queue.length; i++){
+            if(queue[i].fCost < queue[lowBound].fCost) lowBound = i;
+        }
 
-      openList.splice(lowInd, 1);
-      closeList.push(currentNode);
+        const currNode = queue[lowBound];
+        visitedNodes.push(currNode);
 
-      const neighbors = getNeighbors(grid, currentNode);
-      for (let i=0; i<neighbors.length; i++) {
-          const neighbor = neighbors[i];
-          if (closeList.indexOf(neighbor) !== -1 || neighbor.isWall) {
-              continue;
-          }
+        if(currNode.row === targetNode.row && currNode.col === targetNode.col){
+            return visitedNodes;
+        }
 
-          const gScore = currentNode.gCost + 1;
-          let gScoreIsBest = false;
+        queue.splice(lowBound, 1);
+        processing.push(currNode);
+        const neighbors = getNeighbors(grid, currNode);
 
-          if (openList.indexOf(neighbor) === -1) {
-              gScoreIsBest = true;
-              neighbor.hCost = computeHeuristic(neighbor, finishNode);
-              openList.push(neighbor);
-          } else if (gScore < neighbor.gCost) {
-              gScoreIsBest = true;
-          }
+        for(let i=0; i<neighbors.length; i++){
+            const neighbor = neighbors[i];
+            if(processing.indexOf(neighbor) !== -1 || neighbor.isWall) continue;
 
-          if (gScoreIsBest) {
-              neighbor.previousNode = currentNode;
-              neighbor.gCost = gScore;
-              neighbor.fCost = neighbor.gCost + neighbor.hCost;
-          }
-      }
-  }
-  return visitedNodesInOrder;
+            const g_Cost = currNode.gCost + 1;
+            let best_gCost = false;
+
+            if(queue.indexOf(neighbor) === -1){
+                best_gCost = true;
+                neighbor.hCost = Heuristic(neighbor, targetNode);
+                queue.push(neighbor);
+            }
+            else if(g_Cost < neighbor.gCost){
+                best_gCost = true;
+            }
+
+            if(best_gCost){
+                neighbor.previousNode = currNode;
+                neighbor.gCost = g_Cost;
+                neighbor.fCost = neighbor.gCost + neighbor.hCost;
+            }
+        }
+    }      
+    return visitedNodes;
 }
 
 function getNeighbors(grid, node) {
-  let ret = [];
-  const row = node.row;
-  const col = node.col;
+    let neighbors = [];
+    const row = node.row;
+    const col = node.col;
 
-  if (grid[row-1] && grid[row-1][col]) 
-      ret.push(grid[row-1][col]);
-  if(grid[row+1] && grid[row+1][col])
-      ret.push(grid[row+1][col]);
-  if (grid[row][col-1] && grid[row][col-1])
-      ret.push(grid[row][col-1]);
-  if (grid[row][col+1] && grid[row][col+1])
-      ret.push(grid[row][col+1]);
-  return ret;
+    if(grid[row-1] && grid[row-1][col]) neighbors.push(grid[row-1][col]);
+    if(grid[row+1] && grid[row+1][col]) neighbors.push(grid[row+1][col]);
+    if(grid[row][col-1] && grid[row][col-1]) neighbors.push(grid[row][col-1]);
+    if(grid[row][col+1] && grid[row][col+1]) neighbors.push(grid[row][col+1]);
+
+    return neighbors;
 }
 
-function computeHeuristic(node1, node2) {
-  return Math.abs(node1.row - node2.row) + Math.abs(node1.col - node2.col);
+function Heuristic(node1, node2){
+    return Math.abs(node1.row - node2.row) + Math.abs(node1.col - node2.col);
 }
 
