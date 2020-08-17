@@ -19,7 +19,7 @@ const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
 const END_NODE_ROW = 11;
 const END_NODE_COL = 51;
-let speed = 9;
+let speed = 10;
 
 export default class Visualizer extends Component {
     constructor(props){
@@ -261,8 +261,8 @@ export default class Visualizer extends Component {
           <div>
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
-              AdjustAverage={() => this.setSpeed(30)}
-              AdjustFast={() => this.setSpeed(9)}
+              AdjustAverage={() => this.setSpeed(28)}
+              AdjustFast={() => this.setSpeed(10)}
               setDijkstra={() => this.setAlgorithm("dijkstra")}
               setAStar={() => this.setAlgorithm("astar")}
               setBFS={() => this.setAlgorithm("bfs")}
