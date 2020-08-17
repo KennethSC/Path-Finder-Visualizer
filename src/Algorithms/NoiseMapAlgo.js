@@ -4,7 +4,7 @@ export function genNoiseMap(grid) {
     const OG = grid.slice();
     const Nodes = [];
     const perlin = new tumult.PerlinN()
-    for(let row = 0; row < 22; row++) {
+    for(let row = 0; row < 21; row++) {
         for(let col = 0; col < 55; col++) {
             const node = OG[row][col]
             if(node.isStart !== true && node.isFinish !== true){

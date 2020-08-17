@@ -134,7 +134,7 @@ export default class Visualizer extends Component {
     clear() {
         this.setState({ grid: [] });
         const grid = startGrid();
-        for(let row = 0; row < 22; row++){
+        for(let row = 0; row < 21; row++){
             for(let col = 0; col < 55; col++){
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
@@ -148,7 +148,7 @@ export default class Visualizer extends Component {
 
     clearPath(){
         let grid = this.state.grid.slice();
-        for(let row = 0; row < 22; row++){
+        for(let row = 0; row < 21; row++){
             for(let col = 0; col < 55; col++){
                 let node = grid[row][col];
                 node.distance = Infinity;
@@ -167,7 +167,7 @@ export default class Visualizer extends Component {
 
     clearMaze(){
         let grid = this.state.grid.slice();
-        for(let row = 0; row < 22; row++){
+        for(let row = 0; row < 21; row++){
             for(let col = 0; col < 55; col++){
                 let node = grid[row][col];
                 node.isWall = false;
@@ -319,7 +319,7 @@ export default class Visualizer extends Component {
 
 const startGrid = () => {
     const grid = []
-    for(let row = 0; row < 22; row++){
+    for(let row = 0; row < 21; row++){
         const gridRow = [];
         for(let col = 0; col < 55; col++){
             gridRow.push(newNode(row, col));
