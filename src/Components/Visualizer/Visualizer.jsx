@@ -258,7 +258,7 @@ export default class Visualizer extends Component {
 
         return (
           <>
-          <div className="Conatiner">
+          <div>
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
               AdjustAverage={() => this.setSpeed(28)}

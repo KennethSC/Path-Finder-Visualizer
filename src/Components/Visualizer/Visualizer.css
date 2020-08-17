@@ -2,18 +2,8 @@
     margin: 100px 0 0;
 }
 
-.Container{
-    width: 100vw;
-    height: 100 vh;
-    max-width: 100%;
-}
-
 body {
     background-color: white;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    display: block;
     overflow-y: hidden;
 }
 
