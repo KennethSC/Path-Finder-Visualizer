@@ -9,7 +9,7 @@ body {
 
 .Visualize{
     background-color: rgb( 130, 90,250);
-    left: 56.3%;
+    left: 55.8%;
     position: absolute;
     top: 2%;
     border: 5px white;
@@ -37,7 +37,7 @@ body {
 
 .ClearPath{
     background-color: rgb(27, 133, 25);
-    left: 70.2%;
+    left: 69.2%;
     position: absolute;
     top: 2%;
     border: 5px white;
@@ -65,7 +65,7 @@ body {
 
 .Clear{
     background-color:  rgb(240, 24, 16);
-    left: 81.4%;
+    left: 80%;
     position: absolute;
     top: 2%;
     border: 5px white;
@@ -94,7 +94,7 @@ body {
 
 .Pick-an-Algorithm{
     background-color: rgb(214, 37, 31);
-    left: 56.3%;
+    left: 55.8%;
     position: absolute;
     top: 2%;
     border: 5px white;

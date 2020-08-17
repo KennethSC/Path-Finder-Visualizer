@@ -18,7 +18,7 @@ import './Visualizer.css';
 const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
 const END_NODE_ROW = 11;
-const END_NODE_COL = 51;
+const END_NODE_COL = 49;
 let speed = 10;
 
 export default class Visualizer extends Component {
@@ -134,8 +134,8 @@ export default class Visualizer extends Component {
     clear() {
         this.setState({ grid: [] });
         const grid = startGrid();
-        for(let row = 0; row < 23; row++){
-            for(let col = 0; col < 57; col++){
+        for(let row = 0; row < 22; row++){
+            for(let col = 0; col < 55; col++){
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-visited');
                 document.getElementById(`node-${row}-${col}`).classList.remove('node-shortest-path');
                 document.getElementById(`node-${row}-${col}`).classList.remove('keep-image');
@@ -148,8 +148,8 @@ export default class Visualizer extends Component {
 
     clearPath(){
         let grid = this.state.grid.slice();
-        for(let row = 0; row < 23; row++){
-            for(let col = 0; col < 57; col++){
+        for(let row = 0; row < 22; row++){
+            for(let col = 0; col < 55; col++){
                 let node = grid[row][col];
                 node.distance = Infinity;
                 node.isVisited = false
@@ -167,8 +167,8 @@ export default class Visualizer extends Component {
 
     clearMaze(){
         let grid = this.state.grid.slice();
-        for(let row = 0; row < 23; row++){
-            for(let col = 0; col < 57; col++){
+        for(let row = 0; row < 22; row++){
+            for(let col = 0; col < 55; col++){
                 let node = grid[row][col];
                 node.isWall = false;
                 document.getElementById(`node-${row}-${col}`).classList.remove('maze-wall');
@@ -319,9 +319,9 @@ export default class Visualizer extends Component {
 
 const startGrid = () => {
     const grid = []
-    for(let row = 0; row < 23; row++){
+    for(let row = 0; row < 22; row++){
         const gridRow = [];
-        for(let col = 0; col < 57; col++){
+        for(let col = 0; col < 55; col++){
             gridRow.push(newNode(row, col));
         }
         grid.push(gridRow);
