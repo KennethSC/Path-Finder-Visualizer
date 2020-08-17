@@ -1,7 +1,9 @@
 .App {
-  /*text-align: center;
-  margin: 100px 0 0;*/
-  margin-left: 2%;
+  
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  display: block;
 }
 /*
 .App-logo {

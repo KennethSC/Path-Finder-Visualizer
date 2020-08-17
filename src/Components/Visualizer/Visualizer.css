@@ -1,6 +1,6 @@
 .grid{
     margin: 100px 0 0;
-    position: center;
+  /*  position: center;*/
 
 }
 
@@ -10,7 +10,7 @@ body {
     height: 100%;
     margin: 0px;
     display: block;
-  /*  overflow-y: hidden;*/
+    overflow-y: hidden;
 }
 
 .Visualize{
