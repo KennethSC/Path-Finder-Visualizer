@@ -1,7 +1,5 @@
 ## Description
 
-TRY A LIVE VERSION [HERE](https://path-finder-visualizer.netlify.app)<br/>
-
 This pathfinding visualization tool animates several well known pathfinding algorithms and was built using React JS. The main component is an interactive grid where you could make obstacles for the algorithms to traverse or you could also choose to animate several different mazes onto the grid. The main goal of this project is to help the user visualize different pathfinding algorithms by animating them, so that they could hopefully get a better understanding of how they work. The pathfinding algorithms that were implemented in this project are:<br/>
 
 
@@ -32,6 +30,5 @@ The only requirement for this project is that you must have npm installed. You c
 Clone this repository with this command: git clone https://github.com/KennethSC/Path-Finder-Visualizer.git<br/>
 Once the repository is cloned, run this command in the project directory: npm start<br/>
 <br/>
-If you don't want to clone the repository then you could just feel free to use the live version with the link above
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
