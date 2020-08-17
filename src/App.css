@@ -1,7 +1,9 @@
-/*.App {
-  text-align: center;
+.App {
+  /*text-align: center;
+  margin: 100px 0 0;*/
+  margin-left: 2%;
 }
-
+/*
 .App-logo {
   height: 40vmin;
 }
