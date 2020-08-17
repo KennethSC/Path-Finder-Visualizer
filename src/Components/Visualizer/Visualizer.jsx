@@ -317,7 +317,6 @@ export default class Visualizer extends Component {
   }
 }
 
-
 const startGrid = () => {
     const grid = []
     for(let row = 0; row < 23; row++){
