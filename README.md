@@ -20,8 +20,10 @@ This pathfinding visualization tool animates several well known pathfinding algo
 
 - Depth-First Search
 
-- Greedy Best First Search
+- Greedy Best First Search<br/>
 
+
+![Alt Text](https://giphy.com/gifs/TH152XbMxphZH3ygBV)
 
 ## Requirements
 The only requirement for this project is that you must have npm installed. You can safely download npm using this link: https://www.npmjs.com/get-npm
