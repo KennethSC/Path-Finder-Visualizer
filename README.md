@@ -20,7 +20,7 @@ This pathfinding visualization tool animates several well known pathfinding algo
 
 - Greedy Best First Search<br/>
 
-<img src="https://media.giphy.com/media/TH152XbMxphZH3ygBV/giphy.gif" width="300" height="250" />
+<img src="https://media.giphy.com/media/TH152XbMxphZH3ygBV/giphy.gif" width="400" height="400" />
 
 ## Requirements
 The only requirement for this project is that you must have npm installed. You can safely download npm using this link: https://www.npmjs.com/get-npm
