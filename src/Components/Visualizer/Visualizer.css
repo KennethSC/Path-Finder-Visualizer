@@ -13,14 +13,16 @@
 }
 
 
-.grid{
-    position: relative;
-    margin: auto;
-}
+
 
 body {
     background-color: white;
     overflow-y: hidden;
+}
+
+.grid{
+    position: relative;
+    margin: auto;
 }
 
 .Visualize{
