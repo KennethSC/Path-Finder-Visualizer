@@ -1,4 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 .App {
+  overflow: hidden;
+}
+
+
+/*.App {
   text-align: center;
   display: flex;
   width: 100%;
@@ -43,5 +52,5 @@
   to {
     transform: rotate(360deg);
   }
-}
+}*/
 
