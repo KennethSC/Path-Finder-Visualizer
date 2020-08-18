@@ -1,7 +1,5 @@
 ## Description
 
-TRY A LIVE VERSION [HERE](https://pathfinder-visualizer.netlify.app/)  (Use FireFox or Safari)<br/>
-
 This pathfinding visualization tool animates several well known pathfinding algorithms and was built using React JS. The main component is an interactive grid where you could make obstacles for the algorithms to traverse or you could also choose to animate several different mazes onto the grid. The main goal of this project is to help the user visualize different pathfinding algorithms by animating them, so that they could hopefully get a better understanding of how they work. The pathfinding algorithms that were implemented in this project are:<br/>
 
 
@@ -22,8 +20,7 @@ This pathfinding visualization tool animates several well known pathfinding algo
 
 - Greedy Best First Search<br/>
 
-
-![Alt Text](https://giphy.com/gifs/TH152XbMxphZH3ygBV)
+![](https://media.giphy.com/media/TH152XbMxphZH3ygBV/giphy.gif)
 
 ## Requirements
 The only requirement for this project is that you must have npm installed. You can safely download npm using this link: https://www.npmjs.com/get-npm
