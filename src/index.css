@@ -3,11 +3,6 @@ body, html {
   padding: 0;
   width:100vw;
   height:100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  min-width: 1000vw;
-  min-height: 1000vh; 
-  
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
