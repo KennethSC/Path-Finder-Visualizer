@@ -3,23 +3,8 @@ body {
     overflow-y: hidden;
 }
 
-.page{
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  justify-content: space-evenly;
-}
-
-.gridContainer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .grid{
-    position: relative;
-    margin: auto;
+    margin: 110px 0 0;
 }
 
 .Visualize{

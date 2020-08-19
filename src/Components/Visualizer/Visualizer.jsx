@@ -258,7 +258,6 @@ export default class Visualizer extends Component {
 
         return (
           <>
-          <div className="page">
             <NavBar
               AdjustSlow={() => this.setSpeed(70)}
               AdjustAverage={() => this.setSpeed(28)}
@@ -285,7 +284,7 @@ export default class Visualizer extends Component {
 
             <SnackBar ref={this.SnackElement} ></SnackBar>
             <Error ref={this.ErrorElement} ></Error>
-            <div className="gridContainer">
+
             <div className="grid">
               {grid.map((row, rowIdx) => {
                 return(
@@ -311,8 +310,6 @@ export default class Visualizer extends Component {
                );
              })}
           </div>
-          </div>
-        </div>
       </>
     );
   }
