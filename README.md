@@ -20,6 +20,8 @@ This pathfinding visualization tool animates several well known pathfinding algo
 
 - Greedy Best First Search<br/>
 
+![Alt Text](https://media.giphy.com/media/gM0teRCZVj6DDLCT0J/giphy-downsized-large.gif)<br/>
+
 ![Alt Text](https://media.giphy.com/media/kdFYyDsHUiWnNYhwQd/giphy-downsized-large.gif)
 
 ## Requirements
