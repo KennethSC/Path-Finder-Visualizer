@@ -259,6 +259,7 @@ export default class Visualizer extends Component {
         return (
           <>
             <NavBar
+              className="Nav"
               AdjustSlow={() => this.setSpeed(70)}
               AdjustAverage={() => this.setSpeed(28)}
               AdjustFast={() => this.setSpeed(10)}
