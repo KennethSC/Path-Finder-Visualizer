@@ -1,6 +1,8 @@
-body {
+body > #root > div{
     background-color: white;
     overflow-y: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 
 .grid{
