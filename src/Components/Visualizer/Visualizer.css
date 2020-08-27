@@ -5,6 +5,7 @@ body{
 
 .grid{
     margin: 110px 0 0;
+    padding: 0;
 }
 
 .Visualize{
@@ -14,7 +15,7 @@ body{
     top: 2%;
     border: 5px white;
     color: white;
-    padding: 15px 20px;
+    padding: 0;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -42,7 +43,7 @@ body{
     top: 2%;
     border: 5px white;
     color: white;
-    padding: 15px 20px;
+    padding: 0;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -70,7 +71,7 @@ body{
     top: 2%;
     border: 5px white;
     color: white;
-    padding: 15px 20px;
+    padding: 0;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -99,7 +100,7 @@ body{
     top: 2%;
     border: 5px white;
     color: white;
-    padding: 15px 20px;
+    padding: 0;
     text-align: center;
     text-decoration: none;
     display: inline-block;
